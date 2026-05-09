@@ -15,8 +15,10 @@ const login = async (req, res) => {
 
     const user = users[0];
 
-    // 2. Cek apakah password cocok (asumsi password di DB belum di-hash, kalau sudah pakai bcrypt.compare)
-    if (password !== user.password) {
+    // 2. Cek apakah password cocok menggunakan bcrypt.compare
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
       return res.status(401).json({ message: "Password salah!" });
     }
 
@@ -27,11 +29,16 @@ const login = async (req, res) => {
       { expiresIn: "8h" }, // Token hangus dalam 8 jam
     );
 
-    // 4. Kirim respon sukses ke Frontend
+    // 4. Kirim respon sukses ke Frontend (Tambahkan nim_nip)
     res.json({
       message: "Login Berhasil",
       token: token,
-      user: { id: user.id, name: user.name, role: user.role },
+      user: {
+        id: user.id,
+        name: user.name,
+        role: user.role,
+        nim_nip: user.nim_nip, // Menambahkan atribut baru dari tabel users
+      },
     });
   } catch (error) {
     console.log(error);
