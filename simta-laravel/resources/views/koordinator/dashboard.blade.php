@@ -21,6 +21,8 @@
             transition: 0.3s;
             border: none;
             border-radius: 15px;
+            height: 100%;
+
         }
 
         .card-menu:hover {
@@ -64,9 +66,9 @@
         </div>
 
         <!-- Menu Cards -->
-        <div class="row g-4 mb-5">
+        <div class="row g-4 mb-5 align-items-stretch">
 
-            <div class="col-md-4">
+            <div class="col-md-4 d-flex">
                 <div class="card card-menu p-4 text-center">
                     <i class="fa-solid fa-file-circle-check icon-menu"></i>
                     <h5 class="fw-bold">Verifikasi Proposal</h5>
@@ -76,7 +78,26 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4 d-flex">
                 <div class="card card-menu p-4 text-center">
                     <i class="fa-solid fa-calendar-days icon-menu"></i>
+                    <h5 class="fw-bold">Jadwal Ujian</h5>
+                    <p class="text-muted">
+                        Atur jadwal ujian tugas akhir.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4 d-flex">
+                <div class="card card-menu p-4 text-center">
+                    <i class="fa-solid fa-calendar-check icon-menu"></i>
+                    <h5 class="fw-bold">Manajemen Pembimbing</h5>
+                    <p class="text-muted">
+                        Kelola data dan jadwal pembimbing tugas akhir.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </html>
