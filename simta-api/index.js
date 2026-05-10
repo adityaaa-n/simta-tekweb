@@ -11,12 +11,14 @@ app.use(express.json()); // Agar bisa membaca data format JSON
 // Import Routes
 const authRoutes = require("./routes/authRoutes");
 const proposalRoutes = require("./routes/proposalRoutes");
-const guidanceRoutes = require("./routes/guidanceRoutes"); // <--- BARU: Mengimpor jalur bimbingan
+const guidanceRoutes = require("./routes/guidanceRoutes");
+const finalRoutes = require("./routes/finalRoutes"); // <--- BARU: Mengimpor jalur tahap akhir
 
 // Daftarkan Routes
 app.use("/api", authRoutes);
 app.use("/api", proposalRoutes);
-app.use("/api", guidanceRoutes); // <--- BARU: Mendaftarkan jalur bimbingan ke server
+app.use("/api", guidanceRoutes);
+app.use("/api", finalRoutes); // <--- BARU: Mendaftarkan jalur tahap akhir ke server
 
 // Tampilan awal kalau server dibuka di browser
 app.get("/", (req, res) => {
