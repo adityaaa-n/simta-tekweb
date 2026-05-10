@@ -12,14 +12,16 @@ const authRoutes = require("./routes/authRoutes");
 const proposalRoutes = require("./routes/proposalRoutes");
 const guidanceRoutes = require("./routes/guidanceRoutes");
 const finalRoutes = require("./routes/finalRoutes");
-const statsRoutes = require("./routes/statsRoutes"); // <--- BARU
+const statsRoutes = require("./routes/statsRoutes");
+const documentRoutes = require("./routes/documentRoutes"); // <--- BARU: Jalur untuk upload/download dokumen
 
 // Daftarkan Routes
 app.use("/api", authRoutes);
 app.use("/api", proposalRoutes);
 app.use("/api", guidanceRoutes);
 app.use("/api", finalRoutes);
-app.use("/api", statsRoutes); // <--- BARU
+app.use("/api", statsRoutes);
+app.use("/api", documentRoutes); // <--- BARU: Daftarkan jalur dokumen ke server
 
 app.get("/", (req, res) => {
   res.send("Server API SIMTA berjalan normal 🚀");
