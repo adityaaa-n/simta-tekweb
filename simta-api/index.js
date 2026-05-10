@@ -10,9 +10,11 @@ app.use(express.json()); // Agar bisa membaca data format JSON
 
 // Import Routes
 const authRoutes = require("./routes/authRoutes");
+const proposalRoutes = require("./routes/proposalRoutes"); // <--- BARU: Mengimpor jalur proposal
 
 // Daftarkan Routes
 app.use("/api", authRoutes);
+app.use("/api", proposalRoutes); // <--- BARU: Mendaftarkan jalur proposal ke server
 
 // Tampilan awal kalau server dibuka di browser
 app.get("/", (req, res) => {
