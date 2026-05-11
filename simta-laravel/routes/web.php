@@ -42,15 +42,18 @@ Route::middleware(['role:mhs'])->group(function () {
     });
 });
 
-// 2. ZONA DOSEN (SUDAH MENGGUNAKAN CONTROLLER DARI ISSUE #19 & #20)
+// 2. ZONA DOSEN (SUDAH MENGGUNAKAN CONTROLLER DARI ISSUE #19, #20, & #21)
 Route::middleware(['role:dsn'])->group(function () {
     Route::get('/dosen/dashboard', [DosenController::class, 'index'])->name('dosen.dashboard');
     Route::get('/dosen/review', [DosenController::class, 'reviewProposal'])->name('dosen.review');
     Route::post('/dosen/review/{id}', [DosenController::class, 'updateStatusProposal'])->name('dosen.update_proposal');
     
-    // --- TAMBAHAN UNTUK ISSUE #20 ---
     Route::get('/dosen/validasi', [DosenController::class, 'validasiBimbingan'])->name('dosen.validasi');
     Route::post('/dosen/validasi/{id}', [DosenController::class, 'accBimbingan'])->name('dosen.acc_bimbingan');
+    
+    // --- TAMBAHAN UNTUK ISSUE #21 ---
+    Route::get('/dosen/penilaian', [DosenController::class, 'formPenilaian'])->name('dosen.penilaian');
+    Route::post('/dosen/penilaian', [DosenController::class, 'submitNilai'])->name('dosen.submit_nilai');
 });
 
 // 3. ZONA KOORDINATOR

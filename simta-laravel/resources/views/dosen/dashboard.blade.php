@@ -53,7 +53,7 @@
         </a>
     </div>
     <div class="col-md-4">
-        <a href="#" class="card-menu">
+        <a href="{{ route('dosen.penilaian') }}" class="card-menu">
             <i class="fas fa-star"></i>
             <h5>Penilaian TA</h5>
         </a>
