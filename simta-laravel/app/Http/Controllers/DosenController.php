@@ -43,4 +43,32 @@ class DosenController extends Controller
 
         return redirect()->back()->with('error', 'Gagal mengupdate status proposal.');
     }
+
+    // 4. Menampilkan halaman Validasi Bimbingan
+    public function validasiBimbingan()
+    {
+        // Catatan: Di API Node.js kita, endpoint ini butuh parameter proposal_id.
+        // Untuk keperluan testing UI ini, kita *hardcode* tarik data dari proposal_id = 1.
+        $response = Http::get('http://localhost:5000/api/guidance-logs/1');
+        
+        $logs = [];
+        if ($response->successful()) {
+            $logs = $response->json();
+        }
+
+        return view('dosen.validasi', compact('logs'));
+    }
+
+    // 5. Fungsi untuk ACC/Validasi Bimbingan
+    public function accBimbingan($id)
+    {
+        // Tembak API Node.js (PATCH)
+        $response = Http::patch("http://localhost:5000/api/guidance-logs/{$id}/validate");
+
+        if ($response->successful()) {
+            return redirect()->back()->with('success', 'Log bimbingan berhasil divalidasi!');
+        }
+
+        return redirect()->back()->with('error', 'Gagal memvalidasi bimbingan.');
+    }
 }

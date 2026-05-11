@@ -47,7 +47,7 @@
         </a>
     </div>
     <div class="col-md-4">
-        <a href="#" class="card-menu">
+        <a href="{{ route('dosen.validasi') }}" class="card-menu">
             <i class="fas fa-check-circle"></i>
             <h5>Validasi Bimbingan</h5>
         </a>
