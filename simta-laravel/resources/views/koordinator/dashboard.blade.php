@@ -69,34 +69,50 @@
         <div class="row g-4 mb-5 align-items-stretch">
 
             <div class="col-md-4 d-flex">
-                <div class="card card-menu p-4 text-center">
-                    <i class="fa-solid fa-file-circle-check icon-menu"></i>
-                    <h5 class="fw-bold">Verifikasi Proposal</h5>
-                    <p class="text-muted">
-                        Kelola persetujuan proposal mahasiswa.
-                    </p>
-                </div>
+                <a href="/koordinator/verifikasi"
+                class="text-decoration-none text-dark w-100">
+                    <div class="card card-menu p-4 text-center">
+                        <i class="fa-solid fa-file-circle-check icon-menu"></i>
+                        <h5 class="fw-bold">
+                            Verifikasi Proposal
+                        </h5>
+                        <p class="text-muted">
+                            Kelola persetujuan proposal mahasiswa.
+                        </p>
+                    </div>
+                </a>
             </div>
 
             <div class="col-md-4 d-flex">
-                <div class="card card-menu p-4 text-center">
-                    <i class="fa-solid fa-calendar-days icon-menu"></i>
-                    <h5 class="fw-bold">Jadwal Ujian</h5>
-                    <p class="text-muted">
-                        Atur jadwal ujian tugas akhir.
-                    </p>
-                </div>
+                <a href="/koordinator/penjadwalan"
+                class="text-decoration-none text-dark w-100">
+                    <div class="card card-menu p-4 text-center">
+                        <i class="fa-solid fa-calendar-days icon-menu"></i>
+                        <h5 class="fw-bold">
+                            Jadwal Ujian
+                        </h5>
+                        <p class="text-muted">
+                            Atur jadwal ujian tugas akhir.
+                        </p>
+                    </div>
+                </a>
             </div>
 
             <div class="col-md-4 d-flex">
-                <div class="card card-menu p-4 text-center">
-                    <i class="fa-solid fa-calendar-check icon-menu"></i>
-                    <h5 class="fw-bold">Manajemen Pembimbing</h5>
-                    <p class="text-muted">
-                        Kelola data dan jadwal pembimbing tugas akhir.
-                    </p>
-                </div>
+                <a href="/koordinator/manajemen-dosen"
+                class="text-decoration-none text-dark w-100">
+                    <div class="card card-menu p-4 text-center">
+                        <i class="fa-solid fa-calendar-check icon-menu"></i>
+                        <h5 class="fw-bold">
+                            Manajemen Pembimbing
+                        </h5>
+                        <p class="text-muted">
+                            Kelola data dan jadwal pembimbing tugas akhir.
+                        </p>
+                    </div>
+                </a>
             </div>
+            
         </div>
     </div>
 

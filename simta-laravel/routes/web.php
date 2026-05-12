@@ -17,3 +17,7 @@ Route::get('/koordinator/penjadwalan', function () {
 Route::get('/koordinator/manajemen-dosen', function () {
     return view('koordinator.manajemen-dosen');
 });
+
+Route::get('/koordinator/verifikasi', function () {
+    return 'Halaman Verifikasi Proposal';
+});
