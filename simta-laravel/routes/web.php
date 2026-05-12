@@ -9,3 +9,7 @@ Route::get('/', function () {
 Route::get('/koordinator/penjadwalan', function () {
     return view('koordinator.penjadwalan');
 });
+
+Route::get('/koordinator/manajemen-dosen', function () {
+    return view('koordinator.manajemen-dosen');
+});
