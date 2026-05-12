@@ -6,6 +6,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/koordinator', function () {
+Route::get('/koordinator/dashboard', function () {
     return view('koordinator.dashboard');
+});
+
+Route::get('/koordinator/verifikasi', function () {
+    return view('koordinator.verifikasi');
 });
