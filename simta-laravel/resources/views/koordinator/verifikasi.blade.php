@@ -56,55 +56,59 @@
         </div>
 
         <div class="table-container">
-
             <div class="table-responsive">
-
                 <table class="table table-bordered align-middle">
-
                     <thead class="table-primary text-center">
-
+                        
                         <tr>
-
+                            <th>Status</th>
                             <th>Nama Mahasiswa</th>
                             <th>Judul Proposal</th>
                             <th>File</th>
                             <th>Aksi</th>
 
                         </tr>
-
                     </thead>
 
                     <tbody>
+                    
+                    @foreach($proposal as $item)
+                    <tr>
+                        <td>{{ $item->status }}</td>
 
-                        <tr>
+                        <td>{{ $item->mahasiswa->name }}</td>
 
-                            <td>Ahmad Fauzi</td>
+                        <td>{{ $item->judul }}</td>
 
-                            <td>
-                                Sistem Informasi Monitoring Tugas Akhir
-                            </td>
+                        <td class="text-center">
 
-                            <td class="text-center">
+                            <button class="btn btn-outline-primary btn-sm">
+                                Unduh
+                            </button>
 
-                                <button class="btn btn-outline-primary btn-sm">
-                                    Unduh
-                                </button>
+                        </td>
 
-                            </td>
+                        <td class="text-center">
 
-                            <td class="text-center">
+                            <a href="/koordinator/verifikasi/setujui/{{ $item->id }}"
+                                class="btn btn-success btn-sm">
 
-                                <button class="btn btn-success btn-sm">
                                     Setujui
-                                </button>
 
-                                <button class="btn btn-danger btn-sm">
+                                </a>
+
+                                <a href="/koordinator/verifikasi/tolak/{{ $item->id }}"
+                                class="btn btn-danger btn-sm">
+
                                     Tolak
-                                </button>
 
-                            </td>
+                                </a>
 
-                        </tr>
+                        </td>
+
+                    </tr>
+
+                    @endforeach
 
                     </tbody>
 

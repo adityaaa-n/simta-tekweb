@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KoordinatorController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,9 +11,9 @@ Route::get('/koordinator/dashboard', function () {
     return view('koordinator.dashboard');
 });
 
-Route::get('/koordinator/verifikasi', function () {
-    return view('koordinator.verifikasi');
-});
+Route::get('/koordinator/verifikasi',
+    [KoordinatorController::class, 'verifikasi']
+);
 
 Route::get('/koordinator/penjadwalan', function () {
     return view('koordinator.penjadwalan');
@@ -21,3 +22,13 @@ Route::get('/koordinator/penjadwalan', function () {
 Route::get('/koordinator/manajemen-dosen', function () {
     return view('koordinator.manajemen-dosen');
 });
+
+Route::get(
+    '/koordinator/verifikasi/setujui/{id}',
+    [KoordinatorController::class, 'setujui']
+);
+
+Route::get(
+    '/koordinator/verifikasi/tolak/{id}',
+    [KoordinatorController::class, 'tolak']
+);
