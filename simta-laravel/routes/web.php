@@ -15,9 +15,13 @@ Route::get('/koordinator/verifikasi',
     [KoordinatorController::class, 'verifikasi']
 );
 
-Route::get('/koordinator/penjadwalan', function () {
-    return view('koordinator.penjadwalan');
-});
+Route::get('/koordinator/penjadwalan',
+    [KoordinatorController::class, 'penjadwalan']
+);
+
+Route::post('/koordinator/penjadwalan/simpan',
+    [KoordinatorController::class, 'simpanJadwal']
+);
 
 Route::get('/koordinator/manajemen-dosen', function () {
     return view('koordinator.manajemen-dosen');
