@@ -23,16 +23,26 @@ Route::post('/koordinator/penjadwalan/simpan',
     [KoordinatorController::class, 'simpanJadwal']
 );
 
-Route::get('/koordinator/manajemen-dosen', function () {
-    return view('koordinator.manajemen-dosen');
-});
+Route::get('/koordinator/manajemen-dosen',
+    [KoordinatorController::class, 'manajemenDosen']
+);
 
-Route::get(
-    '/koordinator/verifikasi/setujui/{id}',
+Route::post('/koordinator/manajemen-dosen/assign/{id}',
+    [KoordinatorController::class, 'assignDosen']
+);
+
+Route::get('/koordinator/verifikasi/setujui/{id}',
     [KoordinatorController::class, 'setujui']
 );
 
-Route::get(
-    '/koordinator/verifikasi/tolak/{id}',
+Route::get('/koordinator/verifikasi/tolak/{id}',
     [KoordinatorController::class, 'tolak']
+);
+
+Route::get('/koordinator/manajemen-dosen',
+    [KoordinatorController::class, 'manajemenDosen']
+);
+
+Route::post('/koordinator/manajemen-dosen/{id}',
+    [KoordinatorController::class, 'assignDosen']
 );
