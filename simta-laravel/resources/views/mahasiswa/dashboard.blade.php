@@ -95,7 +95,7 @@
           </a>
         </div>
         <div class="col-md-4">
-          <a href="log_bimbingan.html" class="text-decoration-none">
+          <a href="{{ route('mahasiswa.bimbingan') }}" class="text-decoration-none">
             <div class="card">
               <i class="fas fa-pencil-alt"></i>
               <h5>Log Bimbingan</h5>
@@ -138,7 +138,7 @@
     </div>
 
     <footer class="text-center mt-5 mb-3 text-muted">
-      <small>&copy; 2025 Sistem Informasi Manajemen Tugas Akhir (SIMTA)</small>
+      <small>&copy; 2026 Sistem Informasi Manajemen Tugas Akhir (SIMTA)</small>
     </footer>
   </body>
 </html>

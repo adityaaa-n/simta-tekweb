@@ -25,6 +25,10 @@ Route::middleware(['auth'])->group(function () {
         return view('mahasiswa.monitoring');
     })->name('mahasiswa.monitoring');
 
+    Route::get('/mahasiswa/bimbingan', function () {
+        return view('mahasiswa.bimbingan');
+    })->name('mahasiswa.bimbingan');
+
     Route::get('/dashboard/not-ready', function (\Illuminate\Http\Request $request) {
         return view('dashboard_not_ready', ['role' => $request->query('role')]);
     })->name('dashboard.not_ready');
