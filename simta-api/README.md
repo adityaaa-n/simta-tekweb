@@ -51,3 +51,19 @@ Berikut adalah daftar endpoint API yang sudah tersedia untuk digunakan oleh Fron
 
 - **Ambil Data Statistik (Kaprodi)**
   - `GET /api/stats`
+
+## 6. Layanan File Fisik (Issue #11)
+
+- **Upload Dokumen PDF**
+  - `POST /api/documents/upload`
+  - Body (Form-Data): `dokumen_pdf` (File)
+- **Unduh Dokumen**
+  - `GET /api/download/:filename`
+
+## 7. Monitoring & Registrasi Ujian (Issue #12)
+
+- **Pengajuan Tanggal Ujian (Mahasiswa)**
+  - `POST /api/exam-registration`
+  - Body (JSON): `{"proposal_id": 1, "tanggal_harapan": "YYYY-MM-DD", "keterangan": "..."}`
+- **Monitoring Progress Individu**
+  - `GET /api/monitoring/me/:mhs_id`
