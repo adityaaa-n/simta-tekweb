@@ -42,7 +42,7 @@
         text-align: center;
         max-width: 500px;
       }
-      .card-message i {
+      .card-message > i {
         font-size: 4rem;
         color: #ffc107;
         margin-bottom: 20px;
@@ -67,8 +67,8 @@
             <p class="text-muted mt-3">
                 Maaf, dashboard untuk pengguna dengan role <strong>{{ $role ?? 'yang Anda tuju' }}</strong> saat ini belum tersedia atau masih dalam tahap pengembangan.
             </p>
-            <button onclick="history.back()" class="btn btn-outline-success mt-3">
-                <i class="fas fa-arrow-left"></i> Kembali
+            <button onclick="history.back()" class="btn btn-success btn-lg px-4 py-2 mt-4 rounded-pill shadow-sm fw-bold transition-all" style="transition: transform 0.2s ease;">
+                <i class="fas fa-arrow-left me-2"></i> Kembali
             </button>
         </div>
     </div>

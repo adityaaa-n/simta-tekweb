@@ -29,6 +29,18 @@ Route::middleware(['auth'])->group(function () {
         return view('mahasiswa.bimbingan');
     })->name('mahasiswa.bimbingan');
 
+    Route::get('/mahasiswa/seminar', function () {
+        return view('mahasiswa.jadwal_seminar');
+    })->name('mahasiswa.seminar');
+
+    Route::get('/mahasiswa/daftar-ujian', function () {
+        return view('mahasiswa.daftar_ujian');
+    })->name('mahasiswa.daftar_ujian');
+
+    Route::get('/mahasiswa/unggah-dokumen', function () {
+        return view('mahasiswa.unggah_dokumen');
+    })->name('mahasiswa.unggah_dokumen');
+
     Route::get('/dashboard/not-ready', function (\Illuminate\Http\Request $request) {
         return view('dashboard_not_ready', ['role' => $request->query('role')]);
     })->name('dashboard.not_ready');

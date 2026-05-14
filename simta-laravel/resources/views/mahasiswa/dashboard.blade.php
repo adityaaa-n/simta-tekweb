@@ -103,7 +103,7 @@
           </a>
         </div>
         <div class="col-md-4">
-          <a href="jadwal_seminar.html" class="text-decoration-none">
+          <a href="{{ route('mahasiswa.seminar') }}" class="text-decoration-none">
             <div class="card">
               <i class="fas fa-calendar-check"></i>
               <h5>Jadwal Seminar</h5>
@@ -111,7 +111,7 @@
           </a>
         </div>
         <div class="col-md-4">
-          <a href="daftar_ujian.html" class="text-decoration-none">
+          <a href="{{ route('mahasiswa.daftar_ujian') }}" class="text-decoration-none">
             <div class="card">
               <i class="fas fa-file-signature"></i>
               <h5>Pendaftaran Ujian TA</h5>
@@ -119,7 +119,7 @@
           </a>
         </div>
         <div class="col-md-4">
-          <a href="unggah_dokumen.html" class="text-decoration-none">
+          <a href="{{ route('mahasiswa.unggah_dokumen') }}" class="text-decoration-none">
             <div class="card">
               <i class="fas fa-file-upload"></i>
               <h5>Unggah Dokumen Akhir</h5>
