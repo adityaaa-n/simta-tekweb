@@ -17,6 +17,14 @@ Route::middleware(['auth'])->group(function () {
         return view('mahasiswa.dashboard');
     })->name('mahasiswa.dashboard');
 
+    Route::get('/mahasiswa/pengajuan', function () {
+        return view('mahasiswa.pengajuan');
+    })->name('mahasiswa.pengajuan');
+
+    Route::get('/mahasiswa/monitoring', function () {
+        return view('mahasiswa.monitoring');
+    })->name('mahasiswa.monitoring');
+
     Route::get('/dashboard/not-ready', function (\Illuminate\Http\Request $request) {
         return view('dashboard_not_ready', ['role' => $request->query('role')]);
     })->name('dashboard.not_ready');

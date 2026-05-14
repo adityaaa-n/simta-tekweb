@@ -87,7 +87,7 @@
       </div>
       <div class="row g-4">
         <div class="col-md-4">
-          <a href="pengajuan_ta.html" class="text-decoration-none">
+          <a href="{{ route('mahasiswa.pengajuan') }}" class="text-decoration-none">
             <div class="card">
               <i class="fas fa-upload"></i>
               <h5>Pengajuan Tugas Akhir</h5>
@@ -127,7 +127,7 @@
           </a>
         </div>
         <div class="col-md-4">
-          <a href="monitoring.html" class="text-decoration-none">
+          <a href="{{ route('mahasiswa.monitoring') }}" class="text-decoration-none">
             <div class="card">
               <i class="fas fa-chart-line"></i>
               <h5>Monitoring TA</h5>
