@@ -14,7 +14,8 @@ const guidanceRoutes = require("./routes/guidanceRoutes");
 const finalRoutes = require("./routes/finalRoutes");
 const statsRoutes = require("./routes/statsRoutes");
 const documentRoutes = require("./routes/documentRoutes");
-const studentExtraRoutes = require("./routes/studentExtraRoutes"); // <--- BARU: Ekstra Mahasiswa
+const studentExtraRoutes = require("./routes/studentExtraRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 // Daftarkan Routes
 app.use("/api", authRoutes);
@@ -23,13 +24,16 @@ app.use("/api", guidanceRoutes);
 app.use("/api", finalRoutes);
 app.use("/api", statsRoutes);
 app.use("/api", documentRoutes);
-app.use("/api", studentExtraRoutes); // <--- BARU: Ekstra Mahasiswa
+app.use("/api", studentExtraRoutes);
+
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server API SIMTA berjalan normal 🚀");
 });
 
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
   console.log(`Server API menyala di port ${PORT}`);
 });
