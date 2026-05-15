@@ -31,12 +31,26 @@
           </tr>
         </thead>
         <tbody>
+          @forelse($seminars as $seminar)
           <tr>
-            <td>28/06/2025</td>
-            <td>10.00 - 11.30</td>
-            <td>Lab 1</td>
-            <td><span class="badge bg-success">Terverifikasi</span></td>
+            <td>{{ \Carbon\Carbon::parse($seminar->tanggal)->format('d/m/Y') }}</td>
+            <td>{{ $seminar->waktu }}</td>
+            <td>{{ $seminar->ruang }}</td>
+            <td>
+              @if(strtolower($seminar->status) == 'disetujui' || strtolower($seminar->status) == 'terverifikasi')
+                <span class="badge bg-success">{{ ucfirst($seminar->status) }}</span>
+              @elseif(strtolower($seminar->status) == 'ditolak')
+                <span class="badge bg-danger">{{ ucfirst($seminar->status) }}</span>
+              @else
+                <span class="badge bg-warning text-dark">{{ ucfirst($seminar->status) }}</span>
+              @endif
+            </td>
           </tr>
+          @empty
+          <tr>
+            <td colspan="4" class="text-center text-muted">Belum ada jadwal seminar.</td>
+          </tr>
+          @endforelse
         </tbody>
       </table>
       <a href="{{ route('mahasiswa.dashboard') }}" class="btn btn-outline-success w-100">
