@@ -15,7 +15,7 @@
         <table class="table table-hover align-middle">
             <thead class="table-light text-center small text-uppercase fw-bold">
                 <tr>
-                    <th class="py-3">Nama/ID Mahasiswa</th>
+                    <th class="py-3 text-start ps-4">Mahasiswa</th>
                     <th class="py-3">Judul Proposal</th>
                     <th class="py-3">Status</th>
                     <th class="py-3">File</th>
@@ -25,32 +25,47 @@
             <tbody>
                 @forelse ($proposals as $p)
                     <tr>
-                        <td class="text-center fw-bold">{{ $p['mhs_id'] }}</td>
+                        <td class="text-start ps-4">
+                            <div class="fw-bold text-dark fs-6">{{ $p['nama_mhs'] ?? 'Nama Tidak Ditemukan' }}</div>
+                            <span class="badge bg-secondary text-light mt-1 small">NIM: {{ $p['nim_nip'] ?? $p['mhs_id'] }}</span>
+                        </td>
+                        
                         <td>
                             <div class="fw-bold text-dark">{{ $p['judul'] }}</div>
-                            <small class="text-muted">{{ Str::limit($p['deskripsi'], 100) }}</small>
                         </td>
-                        <td class="text-center">
-                            @if(strtoupper($p['status']) == 'PENDING')
-                                <span class="badge rounded-pill bg-secondary px-3 py-2">PENDING</span>
-                            @elseif(strtoupper($p['status']) == 'APPROVED_KOOR')
-                                <span class="badge rounded-pill bg-info px-3 py-2 text-dark">APPROVED KOOR</span>
-                            @elseif(strtoupper($p['status']) == 'REJECTED')
-                                <span class="badge rounded-pill bg-danger px-3 py-2">DITOLAK</span>
-                            @elseif(strtoupper($p['status']) == 'APPROVED_DSN')
-                                <span class="badge rounded-pill bg-success px-3 py-2">DISETUJUI</span>
-                            @else
-                                <span class="badge rounded-pill bg-dark px-3 py-2">{{ strtoupper($p['status']) }}</span>
-                            @endif
-                        </td>
+                        
                         <td class="text-center">
                             @php
-                                $fileName = $p['file_proposal'] ?? 'proposal_default.pdf';
+                                $status = strtoupper($p['status']);
+                                $badgeClass = 'bg-secondary';
+                                if($status == 'APPROVED_DSN') $badgeClass = 'bg-success';
+                                elseif($status == 'REJECTED') $badgeClass = 'bg-danger';
+                                elseif($status == 'APPROVED_KOOR') $badgeClass = 'bg-info text-dark';
                             @endphp
+                            <span class="badge rounded-pill {{ $badgeClass }} px-3 py-2">
+                                {{ $status == 'APPROVED_DSN' ? 'DISETUJUI' : ($status == 'REJECTED' ? 'DITOLAK' : $status) }}
+                            </span>
+                        </td>
+
+                        <td class="text-center">
+                            @php
+                                // 1. Ambil path dari DB
+                                $rawPath = $p['file_path'] ?? '';
+                                
+                                // 2. Ekstrak hanya nama filenya saja (misal dari /uploads/documents/123.pdf menjadi 123.pdf)
+                                $fileName = basename($rawPath);
+                                
+                                // 3. Jika di database masih kosong (NULL), gunakan file dummy yang ada di komputermu
+                                if (empty($fileName)) {
+                                    $fileName = '1778393805626.pdf';
+                                }
+                            @endphp
+
                             <a href="http://localhost:5000/api/download/{{ $fileName }}" target="_blank" class="btn btn-outline-primary btn-sm px-3 rounded-pill fw-bold">
                                 <i class="fas fa-download me-1"></i> Unduh
                             </a>
                         </td>
+
                         <td class="text-center">
                             <button type="button" class="btn btn-success btn-sm px-3 rounded-pill btn-approve fw-bold" data-id="{{ $p['id'] }}">
                                 <i class="fas fa-check me-1"></i> Setujui

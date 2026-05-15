@@ -22,6 +22,7 @@
         <table class="table table-hover align-middle mb-0">
             <thead class="bg-light small text-uppercase fw-bold text-muted text-center">
                 <tr>
+                    <th class="py-3 text-start ps-4">Mahasiswa</th>
                     <th class="py-3">Tanggal</th>
                     <th class="py-3">Catatan</th>
                     <th class="py-3">Status</th>
@@ -32,6 +33,11 @@
                 @forelse ($logs as $log)
                     @php $is_valid = ($log['status_validasi'] ?? '') === 'divalidasi'; @endphp
                     <tr>
+                        <td class="text-start ps-4">
+                            <div class="fw-bold text-dark fs-6">{{ $log['nama_mhs'] ?? 'Nama Mahasiswa' }}</div>
+                            <div class="small text-muted mb-1">NIM: {{ $log['nim_nip'] ?? '-' }}</div>
+                            <small class="text-secondary fst-italic">{{ \Illuminate\Support\Str::limit($log['judul'] ?? 'Judul Proposal', 40) }}</small>
+                        </td>
                         <td class="text-center fw-bold text-primary">{{ \Carbon\Carbon::parse($log['tanggal'])->format('d M Y') }}</td>
                         <td>{{ $log['catatan'] }}</td>
                         <td class="text-center">
@@ -43,7 +49,7 @@
                         </td>
                         <td class="text-center">
                             @if(!$is_valid)
-                                <button type="button" class="btn btn-success btn-sm px-4 rounded-pill btn-validate fw-bold" data-id="{{ $log['id'] }}">
+                                <button type="button" class="btn btn-success btn-sm px-4 rounded-pill btn-validate fw-bold shadow-sm" data-id="{{ $log['id'] }}">
                                     Validasi
                                 </button>
                                 <form id="form-validate-{{ $log['id'] }}" action="{{ route('dosen.acc_bimbingan', $log['id']) }}" method="POST" class="d-none">@csrf</form>
@@ -53,7 +59,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="4" class="text-center py-5 text-muted">Belum ada log bimbingan.</td></tr>
+                    <tr><td colspan="5" class="text-center py-5 text-muted">Belum ada log bimbingan.</td></tr>
                 @endforelse
             </tbody>
         </table>

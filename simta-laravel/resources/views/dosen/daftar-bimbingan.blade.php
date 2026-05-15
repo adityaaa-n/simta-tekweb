@@ -22,8 +22,7 @@
         <table class="table table-hover align-middle mb-0 text-center">
             <thead class="bg-light small text-uppercase fw-bold text-muted">
                 <tr>
-                    <th class="py-3">ID Proposal</th>
-                    <th class="py-3">MHS ID</th>
+                    <th class="py-3 text-start ps-4">Mahasiswa</th>
                     <th class="py-3">Judul Tugas Akhir</th>
                     <th class="py-3">Aksi Penilaian</th>
                 </tr>
@@ -31,8 +30,11 @@
             <tbody>
                 @forelse ($mahasiswa as $m)
                     <tr>
-                        <td class="fw-bold text-danger">PRP-{{ $m['id'] }}</td>
-                        <td>{{ $m['mhs_id'] }}</td>
+                        <td class="text-start ps-4">
+                            <div class="fw-bold text-dark fs-6">{{ $m['nama_mhs'] ?? 'Nama Tidak Ditemukan' }}</div>
+                            <span class="badge bg-secondary text-light mt-1">NIM: {{ $m['nim_nip'] ?? $m['mhs_id'] }}</span>
+                            <div class="small text-muted mt-1">Proposal ID: PRP-{{ $m['id'] }}</div>
+                        </td>
                         <td class="text-start">
                             <div class="fw-bold text-dark">{{ $m['judul'] }}</div>
                         </td>
@@ -49,7 +51,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="4" class="py-5 text-muted small text-center">Belum ada mahasiswa bimbingan yang disetujui.</td></tr>
+                    <tr><td colspan="3" class="py-5 text-muted small text-center">Belum ada mahasiswa bimbingan yang disetujui.</td></tr>
                 @endforelse
             </tbody>
         </table>
