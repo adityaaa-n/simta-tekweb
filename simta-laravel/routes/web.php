@@ -18,8 +18,11 @@ Route::middleware(['auth'])->group(function () {
     })->name('mahasiswa.dashboard');
 
     Route::get('/mahasiswa/pengajuan', function () {
-        return view('mahasiswa.pengajuan');
+        $dosens = \App\Models\User::where('role', 'dsn')->get();
+        return view('mahasiswa.pengajuan', compact('dosens'));
     })->name('mahasiswa.pengajuan');
+
+    Route::post('/mahasiswa/pengajuan', [\App\Http\Controllers\PengajuanController::class, 'store'])->name('mahasiswa.pengajuan.store');
 
     Route::get('/mahasiswa/monitoring', function () {
         return view('mahasiswa.monitoring');
