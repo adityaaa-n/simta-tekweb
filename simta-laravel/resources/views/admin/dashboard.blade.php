@@ -44,7 +44,7 @@
         }
 
     </style>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -56,6 +56,15 @@
             <span class="navbar-brand fw-bold">
                 SIMTA - Admin
             </span>
+
+            <a href="/"
+            class="text-white fw-bold text-decoration-none fs-5">
+
+                <i class="fa-solid fa-right-from-bracket me-2"></i>
+
+                Logout
+
+            </a>
 
         </div>
 
@@ -125,59 +134,81 @@
 
                     <tbody>
 
-                        <tr>
+                    @foreach($proposal as $item)
 
-                            <td>Ahmad Fauzi</td>
+                    <tr>
 
-                            <td>
-                                Sistem Informasi Monitoring Tugas Akhir
-                            </td>
+                        <td>
+                            {{ $item['mahasiswa'] }}
+                        </td>
 
-                            <td class="text-center">
+                        <td>
+                            {{ $item['judul'] }}
+                        </td>
+
+                        <td class="text-center">
+
+                            @if($item['status'] == 'pending')
+
                                 <span class="badge bg-warning text-dark">
                                     Pending
                                 </span>
-                            </td>
 
-                            <td class="text-center">
+                            @elseif($item['status'] == 'approved_admin')
 
-                                <button class="btn btn-success btn-sm">
-                                    Setujui
-                                </button>
-
-                                <button class="btn btn-danger btn-sm">
-                                    Tolak
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Siti Nurhaliza</td>
-
-                            <td>
-                                Aplikasi Penjadwalan Ujian Tugas Akhir
-                            </td>
-
-                            <td class="text-center">
                                 <span class="badge bg-success">
                                     Diverifikasi
                                 </span>
-                            </td>
 
-                            <td class="text-center">
+                            @else
 
-                                <button class="btn btn-secondary btn-sm" disabled>
-                                    Sudah Diverifikasi
+                                <span class="badge bg-danger">
+                                    Ditolak
+                                </span>
+
+                            @endif
+
+                        </td>
+
+                        <td class="text-center">
+
+                            @if($item['status'] == 'pending')
+
+                                <button
+                                    class="btn btn-success btn-sm"
+                                    onclick="confirmSetujui({{ $item['id'] }})">
+
+                                    Setujui
+
                                 </button>
 
-                            </td>
+                                <button
+                                    class="btn btn-danger btn-sm"
+                                    onclick="confirmTolak({{ $item['id'] }})">
 
-                        </tr>
+                                    Tolak
 
-                    </tbody>
+                                </button>
+
+                            @else
+
+                                <button
+                                    class="btn btn-secondary btn-sm"
+                                    disabled>
+
+                                    Sudah Diverifikasi
+
+                                </button>
+
+                            @endif
+
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
 
                 </table>
 
@@ -186,6 +217,68 @@
         </div>
 
     </div>
+    <footer class="text-center mt-5 mb-3 text-muted">
 
+        © 2026 Sistem Informasi Manajemen Tugas Akhir (SIMTA)
+    </footer>
+
+    <script>
+        function confirmSetujui(id)
+        {
+            Swal.fire({
+
+                title: 'Setujui Dokumen?',
+                text: 'Dokumen akan diverifikasi.',
+                icon: 'question',
+
+                showCancelButton: true,
+
+                confirmButtonColor: '#198754',
+                cancelButtonColor: '#6c757d',
+
+                confirmButtonText: 'Ya, Setujui!',
+                cancelButtonText: 'Batal'
+
+            }).then((result) => {
+
+                if(result.isConfirmed){
+
+                    window.location.href =
+                    '/admin/verifikasi/setujui/' + id;
+
+                }
+
+            });
+        }
+
+        function confirmTolak(id)
+        {
+            Swal.fire({
+
+                title: 'Tolak Dokumen?',
+                text: 'Dokumen akan ditolak.',
+                icon: 'warning',
+
+                showCancelButton: true,
+
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+
+                confirmButtonText: 'Ya, Tolak!',
+                cancelButtonText: 'Batal'
+
+            }).then((result) => {
+
+                if(result.isConfirmed){
+
+                    window.location.href =
+                    '/admin/verifikasi/tolak/' + id;
+
+                }
+
+            });
+        }
+
+        </script>
 </body>
 </html>

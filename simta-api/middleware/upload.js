@@ -14,8 +14,9 @@ const storage = multer.diskStorage({
     cb(null, dir);
   },
   filename: (req, file, cb) => {
-    // Nama file diubah jadi: WaktuUpload.pdf (agar tidak bentrok jika nama file sama)
-    cb(null, Date.now() + path.extname(file.originalname));
+    // Menambahkan angka acak 1-1000 agar makin unik (Double Protection)
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e3);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
   },
 });
 
