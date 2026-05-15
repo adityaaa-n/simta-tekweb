@@ -65,24 +65,54 @@ const plotDosen = async (req, res) => {
   }
 };
 
-// 5. FITUR BARU: Lihat Mahasiswa Bimbingan Spesifik Dosen + Cek Nilai
+// 5. Lihat Mahasiswa Bimbingan Spesifik Dosen + Cek Nilai
 const lihatBimbinganDosen = async (req, res) => {
   const { dsn_id } = req.params;
   try {
     const [rows] = await db.query(
-      `
-      SELECT p.*, g.id as grade_id 
-      FROM proposals p
-      LEFT JOIN grades g ON p.id = g.proposal_id
-      WHERE p.dsn_id = ? AND p.status = 'approved_dsn'
-    `,
+      `SELECT p.*, g.id as grade_id 
+       FROM proposals p
+       LEFT JOIN grades g ON p.id = g.proposal_id
+       WHERE p.dsn_id = ? AND p.status = 'approved_dsn'`,
       [dsn_id],
     );
-
     res.json(rows);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Gagal mengambil data bimbingan" });
+  }
+};
+
+// 6. FITUR BARU: Ambil Statistik untuk Dashboard Dosen
+const getStatsDosen = async (req, res) => {
+  const { dsn_id } = req.params;
+  try {
+    // Hitung Proposal Baru (Status: pending)
+    const [propBaru] = await db.query(
+      "SELECT COUNT(*) as total FROM proposals WHERE dsn_id = ? AND status = 'pending'",
+      [dsn_id],
+    );
+
+    // Hitung Mahasiswa Bimbingan (Status: approved_dsn)
+    const [mhsBimbingan] = await db.query(
+      "SELECT COUNT(*) as total FROM proposals WHERE dsn_id = ? AND status = 'approved_dsn'",
+      [dsn_id],
+    );
+
+    // Hitung Jadwal Sidang (Join dengan tabel schedules)
+    const [jadwalSidang] = await db.query(
+      "SELECT COUNT(*) as total FROM schedules s JOIN proposals p ON s.proposal_id = p.id WHERE p.dsn_id = ?",
+      [dsn_id],
+    );
+
+    res.json({
+      proposal_baru: propBaru[0].total,
+      mahasiswa_bimbingan: mhsBimbingan[0].total,
+      jadwal_sidang: jadwalSidang[0].total,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Gagal mengambil statistik dosen" });
   }
 };
 
@@ -92,4 +122,5 @@ module.exports = {
   updateStatus,
   plotDosen,
   lihatBimbinganDosen,
+  getStatsDosen, // <-- Ekspor fungsi baru
 };
