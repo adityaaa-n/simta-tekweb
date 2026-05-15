@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DosenController; // <--- IMPORT CONTROLLER DOSEN DI SINI
+use App\Http\Controllers\DosenController;
 
 // Rute Default: Arahkan langsung ke halaman login
 Route::get('/', function () {
@@ -15,7 +15,14 @@ Route::get('/login', function () {
 
 // --- CHEAT CODE LOGIN SEMENTARA (Agar gampang ngetes) ---
 Route::get('/tes-login/{role}', function ($role) {
-    session(['user' => ['role' => $role]]);
+    // Tambahkan ID simulasi (Misal ID 2 untuk Dosen, 1 untuk Mahasiswa)
+    $id = ($role == 'dsn') ? 2 : 1; 
+    
+    session(['user' => [
+        'id' => $id, 
+        'role' => $role
+    ]]);
+    
     if($role == 'mhs') return redirect('/mahasiswa/dashboard');
     if($role == 'dsn') return redirect('/dosen/dashboard');
     if($role == 'koor') return redirect('/koor/dashboard');
@@ -42,7 +49,7 @@ Route::middleware(['role:mhs'])->group(function () {
     });
 });
 
-// 2. ZONA DOSEN (SUDAH MENGGUNAKAN CONTROLLER DARI ISSUE #19, #20, & #21)
+// 2. ZONA DOSEN 
 Route::middleware(['role:dsn'])->group(function () {
     Route::get('/dosen/dashboard', [DosenController::class, 'index'])->name('dosen.dashboard');
     Route::get('/dosen/review', [DosenController::class, 'reviewProposal'])->name('dosen.review');
@@ -51,8 +58,11 @@ Route::middleware(['role:dsn'])->group(function () {
     Route::get('/dosen/validasi', [DosenController::class, 'validasiBimbingan'])->name('dosen.validasi');
     Route::post('/dosen/validasi/{id}', [DosenController::class, 'accBimbingan'])->name('dosen.acc_bimbingan');
     
-    // --- TAMBAHAN UNTUK ISSUE #21 ---
-    Route::get('/dosen/penilaian', [DosenController::class, 'formPenilaian'])->name('dosen.penilaian');
+    // --- FITUR BARU: Daftar Mahasiswa Bimbingan ---
+    Route::get('/dosen/mahasiswa', [DosenController::class, 'daftarBimbingan'])->name('dosen.mahasiswa');
+    
+    // --- PERBAIKAN: Form Penilaian menerima parameter {id} ---
+    Route::get('/dosen/penilaian/{id}', [DosenController::class, 'formPenilaian'])->name('dosen.penilaian');
     Route::post('/dosen/penilaian', [DosenController::class, 'submitNilai'])->name('dosen.submit_nilai');
 });
 

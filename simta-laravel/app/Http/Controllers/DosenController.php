@@ -3,115 +3,116 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http; // Untuk tembak API Node.js
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class DosenController extends Controller
 {
-    // 1. Menampilkan halaman Dashboard
+    // 1. Dashboard Dosen
     public function index()
     {
-        return view('dosen.dashboard');
-    }
-
-    // 2. Menampilkan halaman Review Proposal
-    public function reviewProposal()
-    {
-        // Tembak API Node.js untuk ambil semua proposal
-        $response = Http::get('http://localhost:5000/api/proposals');
+        $dsn_id = session('user.id', 2); 
+        $response = Http::get("http://localhost:5000/api/stats/dosen/{$dsn_id}");
         
-        $proposals = [];
+        $stats = ['proposal_baru' => 0, 'mahasiswa_bimbingan' => 0, 'jadwal_sidang' => 0];
         if ($response->successful()) {
-            $proposals = $response->json();
+            $stats = $response->json();
         }
 
+        return view('dosen.dashboard', compact('stats'));
+    }
+
+    // 2. Daftar Mahasiswa Bimbingan (HALAMAN BARU)
+    public function daftarBimbingan()
+    {
+        $dsn_id = session('user.id', 2);
+        // Memanggil endpoint baru yang sudah menyertakan 'grade_id'
+        $response = Http::get("http://localhost:5000/api/proposals/dosen/{$dsn_id}");
+        
+        $mahasiswa = [];
+        if ($response->successful()) {
+            $mahasiswa = $response->json();
+        }
+
+        return view('dosen.daftar-bimbingan', compact('mahasiswa'));
+    }
+
+    // 3. Review Proposal
+    public function reviewProposal()
+    {
+        $response = Http::get('http://localhost:5000/api/proposals');
+        $proposals = $response->successful() ? $response->json() : [];
         return view('dosen.review', compact('proposals'));
     }
 
-    // 3. Fungsi untuk Setujui / Tolak Proposal
+    // 4. Update Status Proposal
     public function updateStatusProposal(Request $request, $id)
     {
-        $status = $request->input('status'); // 'approved_koor' atau 'ditolak'
-
-        // Tembak API Node.js (PATCH)
-        $response = Http::patch("http://localhost:5000/api/proposals/{$id}/status", [
-            'status' => $status
-        ]);
+        $status = $request->input('status');
+        $response = Http::patch("http://localhost:5000/api/proposals/{$id}/status", ['status' => $status]);
 
         if ($response->successful()) {
-            return redirect()->back()->with('success', 'Status proposal berhasil diupdate!');
+            return redirect()->back()->with('success', 'Status berhasil diperbarui!');
         }
-
-        return redirect()->back()->with('error', 'Gagal mengupdate status proposal.');
+        return redirect()->back()->with('error', 'Gagal memperbarui status.');
     }
 
-    // 4. Menampilkan halaman Validasi Bimbingan
+    // 5. Validasi Bimbingan (Hardcode ID 1 untuk testing UI)
     public function validasiBimbingan()
     {
-        // Catatan: Di API Node.js kita, endpoint ini butuh parameter proposal_id.
-        // Untuk keperluan testing UI ini, kita *hardcode* tarik data dari proposal_id = 1.
         $response = Http::get('http://localhost:5000/api/guidance-logs/1');
-        
-        $logs = [];
-        if ($response->successful()) {
-            $logs = $response->json();
-        }
-
+        $logs = $response->successful() ? $response->json() : [];
         return view('dosen.validasi', compact('logs'));
     }
 
-    // 5. Fungsi untuk ACC/Validasi Bimbingan
+    // 6. ACC Bimbingan
     public function accBimbingan($id)
     {
-        // Tembak API Node.js (PATCH)
         $response = Http::patch("http://localhost:5000/api/guidance-logs/{$id}/validate");
-
-        if ($response->successful()) {
-            return redirect()->back()->with('success', 'Log bimbingan berhasil divalidasi!');
-        }
-
-        return redirect()->back()->with('error', 'Gagal memvalidasi bimbingan.');
+        return $response->successful() 
+            ? redirect()->back()->with('success', 'Divalidasi!') 
+            : redirect()->back()->with('error', 'Gagal!');
     }
 
-    // 6. Menampilkan Form Penilaian TA
-    public function formPenilaian()
+    // 7. Form Penilaian TA (Dinamis berdasarkan ID Mahasiswa)
+    public function formPenilaian($id)
     {
-        // Hardcode ID Proposal dan Nama Mahasiswa untuk keperluan testing UI
-        $proposal_id = 1;
-        $nama_mahasiswa = "Nabil Fauzi Seff"; 
+        // Ambil data spesifik dari daftar proposal
+        $response = Http::get('http://localhost:5000/api/proposals');
+        $proposal_id = $id;
+        $nama_mahasiswa = "Mahasiswa #".$id; // Fallback jika data nama belum join
+
+        if ($response->successful()) {
+            foreach ($response->json() as $p) {
+                if ($p['id'] == $id) {
+                    $nama_mahasiswa = "MHS ID: " . $p['mhs_id'] . " - " . Str::limit($p['judul'], 30);
+                    break;
+                }
+            }
+        }
 
         return view('dosen.penilaian', compact('proposal_id', 'nama_mahasiswa'));
     }
 
-    // 7. Submit Nilai ke Node.js API
+    // 8. Submit Nilai Akhir
     public function submitNilai(Request $request)
     {
-        $proposal_id = $request->input('proposal_id');
-        $nilai_seminar = $request->input('nilai_seminar');
-        $nilai_ujian = $request->input('nilai_ujian');
-        $komentar = $request->input('komentar');
+        $nilai_angka = ($request->nilai_seminar + $request->nilai_ujian) / 2;
+        
+        if ($nilai_angka >= 80) $huruf = 'A';
+        elseif ($nilai_angka >= 70) $huruf = 'B';
+        elseif ($nilai_angka >= 60) $huruf = 'C';
+        else $huruf = 'D';
 
-        // Hitung rata-rata untuk mendapatkan nilai akhir (angka)
-        $nilai_angka = ($nilai_seminar + $nilai_ujian) / 2;
-
-        // Konversi nilai angka menjadi huruf
-        if ($nilai_angka >= 80) $nilai_huruf = 'A';
-        elseif ($nilai_angka >= 70) $nilai_huruf = 'B';
-        elseif ($nilai_angka >= 60) $nilai_huruf = 'C';
-        elseif ($nilai_angka >= 50) $nilai_huruf = 'D';
-        else $nilai_huruf = 'E';
-
-        // Tembak API Node.js (Metode POST)
         $response = Http::post("http://localhost:5000/api/grades", [
-            'proposal_id' => $proposal_id,
+            'proposal_id' => $request->proposal_id,
             'nilai_angka' => $nilai_angka,
-            'nilai_huruf' => $nilai_huruf,
-            'komentar' => $komentar
+            'nilai_huruf' => $huruf,
+            'komentar' => $request->komentar
         ]);
 
-        if ($response->successful()) {
-            return redirect()->route('dosen.dashboard')->with('success', "Nilai berhasil disimpan! Rata-rata: $nilai_angka (Kategori: $nilai_huruf)");
-        }
-
-        return redirect()->back()->with('error', 'Gagal menyimpan nilai ke sistem.');
+        return $response->successful()
+            ? redirect()->route('dosen.mahasiswa')->with('success', "Nilai tersimpan! Rata-rata: $nilai_angka")
+            : redirect()->back()->with('error', 'Gagal simpan nilai.');
     }
 }

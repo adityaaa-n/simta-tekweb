@@ -31,14 +31,22 @@
                             <small class="text-muted">{{ Str::limit($p['deskripsi'], 100) }}</small>
                         </td>
                         <td class="text-center">
-                            <span class="badge rounded-pill bg-light text-dark border px-3 py-2">{{ strtoupper($p['status']) }}</span>
+                            @if(strtoupper($p['status']) == 'PENDING')
+                                <span class="badge rounded-pill bg-secondary px-3 py-2">PENDING</span>
+                            @elseif(strtoupper($p['status']) == 'APPROVED_KOOR')
+                                <span class="badge rounded-pill bg-info px-3 py-2 text-dark">APPROVED KOOR</span>
+                            @elseif(strtoupper($p['status']) == 'REJECTED')
+                                <span class="badge rounded-pill bg-danger px-3 py-2">DITOLAK</span>
+                            @elseif(strtoupper($p['status']) == 'APPROVED_DSN')
+                                <span class="badge rounded-pill bg-success px-3 py-2">DISETUJUI</span>
+                            @else
+                                <span class="badge rounded-pill bg-dark px-3 py-2">{{ strtoupper($p['status']) }}</span>
+                            @endif
                         </td>
                         <td class="text-center">
                             @php
-                                // Asumsi nama file dari API, fallback ke default jika kosong
                                 $fileName = $p['file_proposal'] ?? 'proposal_default.pdf';
                             @endphp
-                            <!-- Tombol Unduh mengarah ke API Node.js Layanan File Fisik -->
                             <a href="http://localhost:5000/api/download/{{ $fileName }}" target="_blank" class="btn btn-outline-primary btn-sm px-3 rounded-pill fw-bold">
                                 <i class="fas fa-download me-1"></i> Unduh
                             </a>
@@ -52,10 +60,10 @@
                             </button>
 
                             <form id="form-approve-{{ $p['id'] }}" action="{{ route('dosen.update_proposal', $p['id']) }}" method="POST" class="d-none">
-                                @csrf <input type="hidden" name="status" value="approved_koor">
+                                @csrf <input type="hidden" name="status" value="approved_dsn">
                             </form>
                             <form id="form-reject-{{ $p['id'] }}" action="{{ route('dosen.update_proposal', $p['id']) }}" method="POST" class="d-none">
-                                @csrf <input type="hidden" name="status" value="ditolak">
+                                @csrf <input type="hidden" name="status" value="rejected">
                             </form>
                         </td>
                     </tr>

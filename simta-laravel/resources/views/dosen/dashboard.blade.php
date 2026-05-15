@@ -26,7 +26,8 @@
                 </div>
                 <div class="flex-grow-1 ms-3">
                     <h6 class="text-muted mb-1">Proposal Baru</h6>
-                    <h3 class="mb-0 fw-bold">5</h3> </div>
+                    <h3 class="mb-0 fw-bold">{{ $stats['proposal_baru'] ?? 0 }}</h3>
+                </div>
             </div>
         </div>
     </div>
@@ -38,7 +39,7 @@
                 </div>
                 <div class="flex-grow-1 ms-3">
                     <h6 class="text-muted mb-1">Mahasiswa Bimbingan</h6>
-                    <h3 class="mb-0 fw-bold">12</h3>
+                    <h3 class="mb-0 fw-bold">{{ $stats['mahasiswa_bimbingan'] ?? 0 }}</h3>
                 </div>
             </div>
         </div>
@@ -51,7 +52,7 @@
                 </div>
                 <div class="flex-grow-1 ms-3">
                     <h6 class="text-muted mb-1">Jadwal Sidang</h6>
-                    <h3 class="mb-0 fw-bold">3</h3>
+                    <h3 class="mb-0 fw-bold">{{ $stats['jadwal_sidang'] ?? 0 }}</h3>
                 </div>
             </div>
         </div>
@@ -78,7 +79,7 @@
         </a>
     </div>
     <div class="col-md-4">
-        <a href="{{ route('dosen.penilaian') }}" class="text-decoration-none card h-100 border-0 shadow-sm rounded-4 hover-effect p-4">
+        <a href="{{ route('dosen.mahasiswa') }}" class="text-decoration-none card h-100 border-0 shadow-sm rounded-4 hover-effect p-4">
             <div class="text-center">
                 <i class="fas fa-graduation-cap fa-3x text-danger mb-3"></i>
                 <h5 class="fw-bold text-dark">Penilaian TA</h5>
