@@ -63,7 +63,10 @@
             <span class="navbar-brand fw-bold">
                 SIMTA - Kaprodi
             </span>
-
+            <a href="/logout" class="text-white text-decoration-none fw-semibold">
+                <i class="fa-solid fa-right-from-bracket me-1"></i>
+                Logout
+            </a>
         </div>
 
     </nav>
@@ -88,121 +91,31 @@
 
             <div class="col-md-12">
 
-                <div class="card card-menu p-5 text-center shadow-sm">
+                <a href="/kaprodi/statistik"
+                class="text-decoration-none">
 
-                    <i class="fa-solid fa-chart-column icon-menu mb-3"></i>
+                    <div class="card card-menu p-5 text-center shadow-sm">
 
-                    <h3 class="fw-bold text-success">
-                        Monitoring & Statistik TA
-                    </h3>
+                        <i class="fa-solid fa-chart-column icon-menu mb-3"></i>
 
-                    <p class="text-muted">
-                        Pantau perkembangan tugas akhir mahasiswa.
-                    </p>
+                        <h3 class="fw-bold text-success">
+                            Monitoring & Statistik TA
+                        </h3>
 
-                </div>
+                        <p class="text-muted">
+                            Pantau perkembangan tugas akhir mahasiswa.
+                        </p>
 
-            </div>
+                    </div>
 
-        </div>
-
-        <!-- Statistik -->
-        <div class="row g-4 mb-5">
-
-            <div class="col-md-4">
-
-                <div class="card stats-card shadow-sm p-4">
-
-                    <h5 class="text-muted">
-                        Mahasiswa Aktif TA
-                    </h5>
-
-                    <h2 class="fw-bold text-success">
-                        120
-                    </h2>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-4">
-
-                <div class="card stats-card shadow-sm p-4">
-
-                    <h5 class="text-muted">
-                        Proposal Disetujui
-                    </h5>
-
-                    <h2 class="fw-bold text-success">
-                        85
-                    </h2>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-4">
-
-                <div class="card stats-card shadow-sm p-4">
-
-                    <h5 class="text-muted">
-                        Dokumen Akhir Lulus
-                    </h5>
-
-                    <h2 class="fw-bold text-success">
-                        60
-                    </h2>
-
-                </div>
+                </a>
 
             </div>
 
         </div>
-
-        <!-- Chart -->
-        <div class="chart-container">
-
-            <h4 class="fw-bold text-success mb-4">
-                Statistik Tahapan Tugas Akhir
-            </h4>
-
-            <canvas id="statsChart"></canvas>
-
-        </div>
-
-    </div>
-
-    <script>
-
-        const ctx = document.getElementById('statsChart');
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'Pengajuan',
-                    'Bimbingan',
-                    'Seminar',
-                    'Ujian',
-                    'Lulus'
-                ],
-                datasets: [{
-                    label: 'Jumlah Mahasiswa',
-                    data: [120, 100, 80, 65, 60],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-    </script>
-
+        
+        <footer class="text-center py-4 text-muted">
+            © 2026 Sistem Informasi Manajemen Tugas Akhir (SIMTA)
+        </footer>
 </body>
 </html>
