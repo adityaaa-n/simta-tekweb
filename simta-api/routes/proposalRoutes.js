@@ -5,12 +5,15 @@ const {
   lihatProposal,
   updateStatus,
   plotDosen,
+  lihatBimbinganDosen, // Import fungsi baru
 } = require("../controllers/proposalController");
 
-// Daftar rute sesuai dengan fungsi di controller
-router.post("/proposals", ajukanProposal); // Endpoint untuk ajukan proposal
-router.get("/proposals", lihatProposal); // Endpoint untuk lihat proposal
-router.patch("/proposals/:id/status", updateStatus); // Endpoint untuk ubah status
-router.patch("/proposals/:id/assign-dosen", plotDosen); // Endpoint untuk plot dosen
+router.post("/proposals", ajukanProposal);
+router.get("/proposals", lihatProposal);
+router.patch("/proposals/:id/status", updateStatus);
+router.patch("/proposals/:id/assign-dosen", plotDosen);
+
+// Rute baru untuk mengambil mahasiswa bimbingan per dosen
+router.get("/proposals/dosen/:dsn_id", lihatBimbinganDosen);
 
 module.exports = router;
