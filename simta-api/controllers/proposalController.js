@@ -13,15 +13,19 @@ const ajukanProposal = async (req, res) => {
       proposal_id: result.insertId,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Gagal mengajukan proposal" });
   }
 };
 
-// 2. Melihat daftar semua proposal
+// 2. Melihat daftar semua proposal (Admin/Koor)
 const lihatProposal = async (req, res) => {
   try {
-    const [proposals] = await db.query("SELECT * FROM proposals");
+    const [proposals] = await db.query(`
+      SELECT p.*, u.name as nama_mhs, u.nim_nip 
+      FROM proposals p
+      JOIN users u ON p.mhs_id = u.id
+      ORDER BY p.id DESC
+    `);
     res.json(proposals);
   } catch (error) {
     res.status(500).json({ message: "Gagal mengambil data proposal" });
@@ -32,20 +36,16 @@ const lihatProposal = async (req, res) => {
 const updateStatus = async (req, res) => {
   const { id } = req.params;
   let { status } = req.body;
-
-  if (status === "ditolak") {
-    status = "rejected";
-  }
+  if (status === "ditolak") status = "rejected";
 
   try {
     await db.query("UPDATE proposals SET status = ? WHERE id = ?", [
       status,
       id,
     ]);
-    res.json({ message: `Status proposal berhasil diubah menjadi ${status}` });
+    res.json({ message: `Status berhasil diubah menjadi ${status}` });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Gagal mengubah status proposal" });
+    res.status(500).json({ message: "Gagal mengubah status" });
   }
 };
 
@@ -53,7 +53,6 @@ const updateStatus = async (req, res) => {
 const plotDosen = async (req, res) => {
   const { id } = req.params;
   const { dsn_id } = req.body;
-
   try {
     await db.query("UPDATE proposals SET dsn_id = ? WHERE id = ?", [
       dsn_id,
@@ -61,45 +60,40 @@ const plotDosen = async (req, res) => {
     ]);
     res.json({ message: "Dosen pembimbing berhasil ditugaskan!" });
   } catch (error) {
-    res.status(500).json({ message: "Gagal memplot dosen pembimbing" });
+    res.status(500).json({ message: "Gagal memplot dosen" });
   }
 };
 
-// 5. Lihat Mahasiswa Bimbingan Spesifik Dosen + Cek Nilai
+// 5. Lihat Mahasiswa Bimbingan Per Dosen + Status Nilai
 const lihatBimbinganDosen = async (req, res) => {
   const { dsn_id } = req.params;
   try {
     const [rows] = await db.query(
-      `SELECT p.*, g.id as grade_id 
+      `SELECT p.*, g.id as grade_id, u.name as nama_mhs, u.nim_nip 
        FROM proposals p
        LEFT JOIN grades g ON p.id = g.proposal_id
+       JOIN users u ON p.mhs_id = u.id
        WHERE p.dsn_id = ? AND p.status = 'approved_dsn'`,
       [dsn_id],
     );
     res.json(rows);
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Gagal mengambil data bimbingan" });
+    res.status(500).json({ message: "Gagal mengambil bimbingan dosen" });
   }
 };
 
-// 6. FITUR BARU: Ambil Statistik untuk Dashboard Dosen
+// 6. Ambil Statistik Dashboard Dosen
 const getStatsDosen = async (req, res) => {
   const { dsn_id } = req.params;
   try {
-    // Hitung Proposal Baru (Status: pending)
     const [propBaru] = await db.query(
       "SELECT COUNT(*) as total FROM proposals WHERE dsn_id = ? AND status = 'pending'",
       [dsn_id],
     );
-
-    // Hitung Mahasiswa Bimbingan (Status: approved_dsn)
     const [mhsBimbingan] = await db.query(
       "SELECT COUNT(*) as total FROM proposals WHERE dsn_id = ? AND status = 'approved_dsn'",
       [dsn_id],
     );
-
-    // Hitung Jadwal Sidang (Join dengan tabel schedules)
     const [jadwalSidang] = await db.query(
       "SELECT COUNT(*) as total FROM schedules s JOIN proposals p ON s.proposal_id = p.id WHERE p.dsn_id = ?",
       [dsn_id],
@@ -111,8 +105,50 @@ const getStatsDosen = async (req, res) => {
       jadwal_sidang: jadwalSidang[0].total,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Gagal mengambil statistik dosen" });
+    res.status(500).json({ message: "Gagal mengambil statistik" });
+  }
+};
+
+// 7. Ambil Seluruh Log Bimbingan Milik Mahasiswa Dosen Tersebut
+const getLogsByDosen = async (req, res) => {
+  const { dsn_id } = req.params;
+  try {
+    const [logs] = await db.query(
+      `
+      SELECT l.*, p.judul, u.name as nama_mhs, u.nim_nip
+      FROM log_bimbingan l
+      JOIN proposals p ON l.proposal_id = p.id
+      JOIN users u ON p.mhs_id = u.id
+      WHERE p.dsn_id = ?
+      ORDER BY l.tanggal DESC
+    `,
+      [dsn_id],
+    );
+    res.json(logs);
+  } catch (error) {
+    res.status(500).json({ message: "Gagal mengambil log bimbingan" });
+  }
+};
+
+// 8. FITUR BARU: Ambil Proposal khusus untuk di-review Dosen tertentu
+const getProposalsForReviewDosen = async (req, res) => {
+  const { dsn_id } = req.params;
+  try {
+    const [proposals] = await db.query(
+      `
+      SELECT p.*, u.name as nama_mhs, u.nim_nip 
+      FROM proposals p
+      JOIN users u ON p.mhs_id = u.id
+      WHERE p.dsn_id = ?
+      ORDER BY p.id DESC
+    `,
+      [dsn_id],
+    );
+    res.json(proposals);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Gagal mengambil data proposal untuk direview" });
   }
 };
 
@@ -122,5 +158,7 @@ module.exports = {
   updateStatus,
   plotDosen,
   lihatBimbinganDosen,
-  getStatsDosen, // <-- Ekspor fungsi baru
+  getStatsDosen,
+  getLogsByDosen,
+  getProposalsForReviewDosen,
 };
