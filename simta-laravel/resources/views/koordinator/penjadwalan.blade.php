@@ -153,7 +153,7 @@
     </div>
     <footer class="text-center mt-5 mb-3 text-muted">
 
-        © 2025 Sistem Informasi Manajemen Tugas Akhir (SIMTA)
+        © 2026 Sistem Informasi Manajemen Tugas Akhir (SIMTA)
 
     </footer>
     <script>

@@ -79,11 +79,11 @@
 
                         <tr>
 
-                            <th>Status</th>
                             <th>Nama Mahasiswa</th>
                             <th>Judul Proposal</th>
                             <th>Dosen Pembimbing</th>
                             <th>File</th>
+                            <th>Status</th>
                             <th>Aksi</th>
 
                         </tr>
@@ -95,29 +95,29 @@
                         @foreach($proposal as $item)
 
                         <tr>
-
-                            <td>
-                                {{ $item['status'] }}
-                            </td>
-
+                            
                             <td>
                                 {{ $item['mahasiswa'] }}
                             </td>
-
+                            
                             <td>
                                 {{ $item['judul'] }}
                             </td>
-
+                            
                             <td>
                                 {{ $item['dosen'] ?? '-' }}
                             </td>
-
+                            
                             <td class="text-center">
-
+                                
                                 <button class="btn btn-outline-primary btn-sm">
                                     Unduh
                                 </button>
-
+                                
+                            </td>
+                            
+                            <td>
+                                {{ $item['status'] }}
                             </td>
 
                             <td class="text-center">
@@ -173,7 +173,7 @@
     </div>
     <footer class="text-center mt-5 mb-3 text-muted">
 
-        © 2025 Sistem Informasi Manajemen Tugas Akhir (SIMTA)
+        © 2026 Sistem Informasi Manajemen Tugas Akhir (SIMTA)
 
     </footer>
 
