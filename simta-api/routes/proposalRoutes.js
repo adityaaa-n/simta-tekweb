@@ -5,12 +5,22 @@ const {
   lihatProposal,
   updateStatus,
   plotDosen,
+  lihatBimbinganDosen,
+  getStatsDosen,
+  getLogsByDosen,
+  getProposalsForReviewDosen, // <-- Import fungsi baru
 } = require("../controllers/proposalController");
 
-// Daftar rute sesuai dengan fungsi di controller
-router.post("/proposals", ajukanProposal); // Endpoint untuk ajukan proposal
-router.get("/proposals", lihatProposal); // Endpoint untuk lihat proposal
-router.patch("/proposals/:id/status", updateStatus); // Endpoint untuk ubah status
-router.patch("/proposals/:id/assign-dosen", plotDosen); // Endpoint untuk plot dosen
+router.post("/proposals", ajukanProposal);
+router.get("/proposals", lihatProposal);
+router.patch("/proposals/:id/status", updateStatus);
+router.patch("/proposals/:id/assign-dosen", plotDosen);
+
+router.get("/proposals/dosen/:dsn_id", lihatBimbinganDosen);
+router.get("/stats/dosen/:dsn_id", getStatsDosen);
+router.get("/guidance-logs/dosen/:dsn_id", getLogsByDosen);
+
+// <-- Rute baru untuk halaman Review Dosen
+router.get("/proposals/review/dosen/:dsn_id", getProposalsForReviewDosen);
 
 module.exports = router;
