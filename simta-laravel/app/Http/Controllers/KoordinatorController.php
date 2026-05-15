@@ -2,66 +2,88 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Proposal;
-use App\Models\Schedule;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class KoordinatorController extends Controller
 {
     public function verifikasi()
     {
-        $proposal = Proposal::with('mahasiswa')->get();
+        $response = Http::get(
+            'http://127.0.0.1:3000/api/proposals'
+        );
+            
+        $proposal = $response->json();
 
         return view('koordinator.verifikasi', compact('proposal'));
     }
 
     public function setujui(int $id)
     {
-        $proposal = Proposal::findOrFail($id);
-
-        $proposal->status = 'approved_koor';
-
-        $proposal->save();
+        Http::put(
+            "http://127.0.0.1:3000/api/proposals/$id",
+            [
+                'status' => 'approved_koor'
+            ]
+        );
 
         return redirect('/koordinator/verifikasi');
     }
 
     public function tolak(int $id)
     {
-        $proposal = Proposal::findOrFail($id);
-
-        $proposal->status = 'rejected';
-
-        $proposal->save();
+        Http::put(
+            "http://127.0.0.1:3000/api/proposals/$id",
+            [
+                'status' => 'rejected'
+            ]
+        );
 
         return redirect('/koordinator/verifikasi');
     }
 
     public function penjadwalan()
     {
-        $proposal = Proposal::all();
+        $response = Http::get(
+            'http://127.0.0.1:3000/api/proposals'
+        );
 
-        return view('koordinator.penjadwalan', compact('proposal'));
+        $proposal = $response->json();
+
+        return view(
+            'koordinator.penjadwalan',
+            compact('proposal')
+        );
     }
 
     public function simpanJadwal(Request $request)
     {
-        Schedule::create([
-            'proposal_id' => $request->proposal_id,
-            'tanggal' => $request->tanggal,
-            'waktu' => $request->waktu,
-            'ruang' => $request->ruang
-        ]);
+        Http::post(
+            'http://127.0.0.1:3000/api/penjadwalan',
+            [
+                'proposal_id' => $request->proposal_id,
+                'tanggal' => $request->tanggal,
+                'waktu' => $request->waktu,
+                'ruang' => $request->ruang
+            ]
+        );
 
         return redirect('/koordinator/penjadwalan');
     }
 
     public function manajemenDosen()
     {
-        $proposal = Proposal::with('mahasiswa')->get();
+        $proposalResponse = Http::get(
+            'http://127.0.0.1:3000/api/proposals'
+        );
 
-        $dosen = User::where('role', 'dsn')->get();
+        $dosenResponse = Http::get(
+            'http://127.0.0.1:3000/api/dosen'
+        );
+
+        $proposal = $proposalResponse->json();
+
+        $dosen = $dosenResponse->json();
 
         return view(
             'koordinator.manajemen-dosen',
@@ -71,11 +93,12 @@ class KoordinatorController extends Controller
 
     public function assignDosen(Request $request, int $id)
     {
-        $proposal = Proposal::findOrFail($id);
-
-        $proposal->dsn_id = $request->dsn_id;
-
-        $proposal->save();
+        Http::post(
+            "http://127.0.0.1:3000/api/manajemen-dosen/$id",
+            [
+                'dsn_id' => $request->dsn_id
+            ]
+        );
 
         return redirect('/koordinator/manajemen-dosen');
     }

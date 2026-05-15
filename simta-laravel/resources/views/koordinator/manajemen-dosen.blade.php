@@ -6,7 +6,7 @@
     <title>Manajemen Dosen Pembimbing</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
 
         body{
@@ -90,29 +90,33 @@
 
                         <tr>
 
-                            <td>
+                            <form
+                                id="formDosen{{ $item['id'] }}"
+                                action="/koordinator/manajemen-dosen/{{ $item['id'] }}"
+                                method="POST">
 
-                                {{ $item->mahasiswa->name }}
+                                @csrf
 
-                            </td>
+                                <td>
 
-                            <td>
+                                    {{ $item['mahasiswa'] }}
 
-                                {{ $item->judul }}
+                                </td>
 
-                            </td>
+                                <td>
 
-                            <td>
+                                    {{ $item['judul'] }}
 
-                                <form action="/koordinator/manajemen-dosen/{{ $item->id }}"
-                                      method="POST">
+                                </td>
 
-                                    @csrf
+                                <td>
 
-                                    <select name="dsn_id"
-                                            class="form-select">
+                                    <select
+                                        id="dsn{{ $item['id'] }}"
+                                        name="dsn_id"
+                                        class="form-select">
 
-                                        <option selected disabled>
+                                        <option value="" selected>
 
                                             -- Pilih Dosen --
 
@@ -120,9 +124,9 @@
 
                                         @foreach($dosen as $dsn)
 
-                                            <option value="{{ $dsn->id }}">
+                                            <option value="{{ $dsn['id'] }}">
 
-                                                {{ $dsn->name }}
+                                                {{ $dsn['name'] }}
 
                                             </option>
 
@@ -130,19 +134,22 @@
 
                                     </select>
 
-                            </td>
+                                </td>
 
-                            <td class="text-center">
+                                <td class="text-center">
 
-                                    <button class="btn btn-danger">
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        onclick="confirmAssign({{ $item['id'] }})">
 
                                         Simpan
 
                                     </button>
 
-                                </form>
+                                </td>
 
-                            </td>
+                            </form>
 
                         </tr>
 
@@ -153,10 +160,90 @@
                 </table>
 
             </div>
+            <div class="mt-4 text-center">
+
+                <a
+                    href="/koordinator/dashboard"
+                    class="btn btn-outline-secondary">
+
+                    ← Kembali ke Dashboard
+
+                </a>
+
+            </div>
 
         </div>
 
     </div>
+    <footer class="text-center mt-5 mb-3 text-muted">
 
+        © 2025 Sistem Informasi Manajemen Tugas Akhir (SIMTA)
+
+    </footer>
+    <script>
+
+    function confirmAssign(id)
+    {
+        let dosen =
+        document.getElementById('dsn' + id);
+
+        if(dosen.value == '')
+        {
+            Swal.fire({
+
+                title: 'Pilih Dosen!',
+                text: 'Dosen pembimbing wajib dipilih.',
+                icon: 'warning',
+
+                confirmButtonColor: '#dc3545'
+
+            });
+
+            return;
+        }
+
+        Swal.fire({
+
+            title: 'Simpan Pembimbing?',
+            text: 'Pastikan dosen pembimbing sudah benar.',
+            icon: 'question',
+
+            showCancelButton: true,
+
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+
+            confirmButtonText: 'Ya, Simpan!',
+            cancelButtonText: 'Batal'
+
+        }).then((result) => {
+
+            if(result.isConfirmed){
+
+                Swal.fire({
+
+                    title: 'Berhasil!',
+                    text: 'Dosen pembimbing berhasil disimpan.',
+                    icon: 'success',
+
+                    timer: 1500,
+                    showConfirmButton: false
+
+                });
+
+                setTimeout(() => {
+
+                    document
+                    .getElementById('formDosen' + id)
+                    .submit();
+
+                }, 1500);
+
+            }
+
+        });
+    }
+
+    </script>
 </body>
 </html>
