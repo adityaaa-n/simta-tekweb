@@ -18,16 +18,22 @@ Route::middleware(['auth'])->group(function () {
     })->name('mahasiswa.dashboard');
 
     Route::get('/mahasiswa/pengajuan', function () {
-        return view('mahasiswa.pengajuan');
+        $dosens = \App\Models\User::where('role', 'dsn')->get();
+        return view('mahasiswa.pengajuan', compact('dosens'));
     })->name('mahasiswa.pengajuan');
+
+    Route::post('/mahasiswa/pengajuan', [\App\Http\Controllers\PengajuanController::class, 'store'])->name('mahasiswa.pengajuan.store');
 
     Route::get('/mahasiswa/monitoring', function () {
         return view('mahasiswa.monitoring');
     })->name('mahasiswa.monitoring');
 
     Route::get('/mahasiswa/bimbingan', function () {
-        return view('mahasiswa.bimbingan');
+        $bimbingans = \App\Models\Bimbingan::orderBy('tanggal', 'desc')->get();
+        return view('mahasiswa.bimbingan', compact('bimbingans'));
     })->name('mahasiswa.bimbingan');
+
+    Route::post('/mahasiswa/bimbingan', [\App\Http\Controllers\BimbinganController::class, 'store'])->name('mahasiswa.bimbingan.store');
 
     Route::get('/dashboard/not-ready', function (\Illuminate\Http\Request $request) {
         return view('dashboard_not_ready', ['role' => $request->query('role')]);
