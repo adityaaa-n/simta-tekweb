@@ -37,4 +37,41 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
-module.exports = { getDashboardStats };
+// 2. Mengambil Statistik Khusus untuk Dashboard 1 Dosen
+const getDosenStats = async (req, res) => {
+  const { dsn_id } = req.params;
+
+  try {
+    // A. Proposal Baru (Status masih pending atau baru di-acc koordinator ke dosen ini)
+    const [proposalBaru] = await db.query(
+      'SELECT COUNT(*) as total FROM proposals WHERE dsn_id = ? AND status IN ("pending", "approved_koor")',
+      [dsn_id],
+    );
+
+    // B. Mahasiswa Bimbingan (Proposal yang sudah di-ACC dan tidak ditolak)
+    const [mhsBimbingan] = await db.query(
+      'SELECT COUNT(*) as total FROM proposals WHERE dsn_id = ? AND status != "rejected"',
+      [dsn_id],
+    );
+
+    // C. Jadwal Sidang (Dihitung dari tabel schedules yang terhubung ke proposal dosen ini)
+    const [jadwalSidang] = await db.query(
+      `SELECT COUNT(*) as total FROM schedules s
+       JOIN proposals p ON s.proposal_id = p.id
+       WHERE p.dsn_id = ?`,
+      [dsn_id],
+    );
+
+    // Kirim paket JSON ke Frontend
+    res.json({
+      proposal_baru: proposalBaru[0].total,
+      mahasiswa_bimbingan: mhsBimbingan[0].total,
+      jadwal_sidang: jadwalSidang[0].total,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Gagal mengambil statistik dosen" });
+  }
+};
+
+module.exports = { getDashboardStats, getDosenStats };

@@ -32,7 +32,12 @@ const lihatProposal = async (req, res) => {
 // 3. Dosen atau Koordinator Mengubah Status (ACC/Tolak)
 const updateStatus = async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body; // status berisi: 'approved_dsn', 'approved_koor', atau 'rejected'
+  let { status } = req.body; // status berisi: 'approved_dsn', 'approved_koor', atau 'rejected'
+
+  // FIX BUG: Interceptor untuk mengubah value 'ditolak' dari frontend menjadi 'rejected' untuk database
+  if (status === "ditolak") {
+    status = "rejected";
+  }
 
   try {
     await db.query("UPDATE proposals SET status = ? WHERE id = ?", [
@@ -41,6 +46,7 @@ const updateStatus = async (req, res) => {
     ]);
     res.json({ message: `Status proposal berhasil diubah menjadi ${status}` });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Gagal mengubah status proposal" });
   }
 };
