@@ -21,9 +21,17 @@ const ajukanProposal = async (req, res) => {
 const lihatProposal = async (req, res) => {
   try {
     const [proposals] = await db.query(`
-      SELECT p.*, u.name as nama_mhs, u.nim_nip 
+      SELECT p.*, 
+      mhs.name AS nama_mhs, 
+      mhs.nim_nip, 
+      dsn.name AS nama_dosen
       FROM proposals p
-      JOIN users u ON p.mhs_id = u.id
+
+      LEFT JOIN users AS mhs 
+      ON p.mhs_id = mhs.id
+      LEFT JOIN users AS dsn 
+      ON p.dsn_id = dsn.id
+      
       ORDER BY p.id DESC
     `);
     res.json(proposals);
