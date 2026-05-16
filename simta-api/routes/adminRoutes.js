@@ -29,4 +29,30 @@ router.get('/verifikasi', async (req, res) => {
 
 });
 
+router.put('/verifikasi/:id', async (req, res) => {
+
+    try {
+
+        const { status } = req.body;
+
+        await db.query(`
+            UPDATE proposals
+            SET status = ?
+            WHERE id = ?
+        `, [status, req.params.id]);
+
+        res.json({
+            message: 'Status berhasil diperbarui'
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});
+
 module.exports = router;
