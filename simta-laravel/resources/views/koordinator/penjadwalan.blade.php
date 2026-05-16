@@ -39,6 +39,14 @@
                 SIMTA - Penjadwalan Ujian
 
             </a>
+            <a href="/koordinator/dashboard"
+               class="text-white text-decoration-none fw-semibold">
+
+                <i class="fa-solid fa-arrow-left me-1"></i>
+                ← Dashboard
+
+            </a>
+
 
         </div>
 
@@ -134,17 +142,6 @@
                     </button>
 
                 </form>
-
-            </div>
-            <div class="mt-4 text-center">
-
-                <a
-                    href="/koordinator/dashboard"
-                    class="btn btn-outline-secondary">
-
-                    ← Kembali ke Dashboard
-
-                </a>
 
             </div>
 

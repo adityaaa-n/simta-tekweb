@@ -10,7 +10,7 @@ class KoordinatorController extends Controller
     public function verifikasi()
     {
         $response = Http::get(
-            'http://127.0.0.1:3000/api/proposals'
+            'http://127.0.0.1:5000/api/proposals'
         );
             
         $proposal = $response->json();
@@ -21,7 +21,7 @@ class KoordinatorController extends Controller
     public function setujui(int $id)
     {
         Http::put(
-            "http://127.0.0.1:3000/api/proposals/$id",
+            "http://127.0.0.1:5000/api/proposals/$id",
             [
                 'status' => 'approved_koor'
             ]
@@ -33,7 +33,7 @@ class KoordinatorController extends Controller
     public function tolak(int $id)
     {
         Http::put(
-            "http://127.0.0.1:3000/api/proposals/$id",
+            "http://127.0.0.1:5000/api/proposals/$id",
             [
                 'status' => 'rejected'
             ]
@@ -45,7 +45,7 @@ class KoordinatorController extends Controller
     public function penjadwalan()
     {
         $response = Http::get(
-            'http://127.0.0.1:3000/api/proposals'
+            'http://127.0.0.1:5000/api/proposals'
         );
 
         $proposal = $response->json();
@@ -59,7 +59,7 @@ class KoordinatorController extends Controller
     public function simpanJadwal(Request $request)
     {
         Http::post(
-            'http://127.0.0.1:3000/api/penjadwalan',
+            'http://127.0.0.1:5000/api/penjadwalan',
             [
                 'proposal_id' => $request->proposal_id,
                 'tanggal' => $request->tanggal,
@@ -74,11 +74,11 @@ class KoordinatorController extends Controller
     public function manajemenDosen()
     {
         $proposalResponse = Http::get(
-            'http://127.0.0.1:3000/api/proposals'
+            'http://127.0.0.1:5000/api/proposals'
         );
 
         $dosenResponse = Http::get(
-            'http://127.0.0.1:3000/api/dosen'
+            'http://127.0.0.1:5000/api/dosen'
         );
 
         $proposal = $proposalResponse->json();
@@ -94,7 +94,7 @@ class KoordinatorController extends Controller
     public function assignDosen(Request $request, int $id)
     {
         Http::post(
-            "http://127.0.0.1:3000/api/manajemen-dosen/$id",
+            "http://127.0.0.1:5000/api/manajemen-dosen/$id",
             [
                 'dsn_id' => $request->dsn_id
             ]
