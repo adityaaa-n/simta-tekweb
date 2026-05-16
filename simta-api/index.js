@@ -16,6 +16,7 @@ const statsRoutes = require("./routes/statsRoutes");
 const documentRoutes = require("./routes/documentRoutes");
 const studentExtraRoutes = require("./routes/studentExtraRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const kaprodiRoutes = require('./routes/kaprodiRoutes');
 
 // Daftarkan Routes
 app.use("/api", authRoutes);
@@ -25,7 +26,7 @@ app.use("/api", finalRoutes);
 app.use("/api", statsRoutes);
 app.use("/api", documentRoutes);
 app.use("/api", studentExtraRoutes);
-
+app.use('/api/kaprodi', kaprodiRoutes);
 app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {

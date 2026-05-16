@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DosenController;
+use App\Http\Controllers\KaprodiController;
 use App\Http\Controllers\AdminController;
 
 
@@ -26,4 +26,11 @@ Route::get(
 
 Route::get('/admin/verifikasi',
     [AdminController::class, 'verifikasi']
+);
+Route::get('/kaprodi/dashboard',
+    [KaprodiController::class, 'dashboard']
+);
+
+Route::get('/kaprodi/statistik',
+    [KaprodiController::class, 'statistik']
 );
