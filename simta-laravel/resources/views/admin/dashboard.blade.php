@@ -74,7 +74,6 @@
 
         <!-- Welcome -->
         <div class="mb-4">
-
             <h2 class="fw-bold">
                 Dashboard Admin
             </h2>
@@ -90,195 +89,32 @@
 
             <div class="col-md-12">
 
-                <div class="card card-menu p-5 text-center shadow-sm">
+                <a href="/admin/verifikasi"
+                class="text-decoration-none">
 
-                    <i class="fa-solid fa-circle-check icon-menu mb-3"></i>
+                    <div class="card card-menu p-5 text-center shadow-sm">
 
-                    <h3 class="fw-bold text-danger">
-                        Verifikasi Dokumen Akhir
-                    </h3>
+                        <i class="fa-solid fa-circle-check icon-menu mb-3"></i>
 
-                    <p class="text-muted">
-                        Kelola dan verifikasi dokumen mahasiswa.
-                    </p>
+                        <h3 class="fw-bold text-danger">
+                            Verifikasi Dokumen Akhir
+                        </h3>
 
-                </div>
+                        <p class="text-muted">
+                            Kelola dan verifikasi dokumen mahasiswa.
+                        </p>
 
-            </div>
+                    </div>
 
-        </div>
-
-        <!-- Table -->
-        <div class="table-container">
-
-            <h4 class="fw-bold text-danger mb-4">
-                Tabel Verifikasi Dokumen
-            </h4>
-
-            <div class="table-responsive">
-
-                <table class="table table-bordered align-middle">
-
-                    <thead class="table-danger text-center">
-
-                        <tr>
-
-                            <th>Nama Mahasiswa</th>
-                            <th>Judul TA</th>
-                            <th>Status</th>
-                            <th width="250">Aksi</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                    @foreach($proposal as $item)
-
-                    <tr>
-
-                        <td>
-                            {{ $item['mahasiswa'] }}
-                        </td>
-
-                        <td>
-                            {{ $item['judul'] }}
-                        </td>
-
-                        <td class="text-center">
-
-                            @if($item['status'] == 'pending')
-
-                                <span class="badge bg-warning text-dark">
-                                    Pending
-                                </span>
-
-                            @elseif($item['status'] == 'approved_admin')
-
-                                <span class="badge bg-success">
-                                    Diverifikasi
-                                </span>
-
-                            @else
-
-                                <span class="badge bg-danger">
-                                    Ditolak
-                                </span>
-
-                            @endif
-
-                        </td>
-
-                        <td class="text-center">
-
-                            @if($item['status'] == 'pending')
-
-                                <button
-                                    class="btn btn-success btn-sm"
-                                    onclick="confirmSetujui({{ $item['id'] }})">
-
-                                    Setujui
-
-                                </button>
-
-                                <button
-                                    class="btn btn-danger btn-sm"
-                                    onclick="confirmTolak({{ $item['id'] }})">
-
-                                    Tolak
-
-                                </button>
-
-                            @else
-
-                                <button
-                                    class="btn btn-secondary btn-sm"
-                                    disabled>
-
-                                    Sudah Diverifikasi
-
-                                </button>
-
-                            @endif
-
-                        </td>
-
-                    </tr>
-
-                    @endforeach
-
-                </tbody>
-
-                </table>
+                </a>
 
             </div>
 
         </div>
-
     </div>
     <footer class="text-center mt-5 mb-3 text-muted">
 
         © 2026 Sistem Informasi Manajemen Tugas Akhir (SIMTA)
     </footer>
-
-    <script>
-        function confirmSetujui(id)
-        {
-            Swal.fire({
-
-                title: 'Setujui Dokumen?',
-                text: 'Dokumen akan diverifikasi.',
-                icon: 'question',
-
-                showCancelButton: true,
-
-                confirmButtonColor: '#198754',
-                cancelButtonColor: '#6c757d',
-
-                confirmButtonText: 'Ya, Setujui!',
-                cancelButtonText: 'Batal'
-
-            }).then((result) => {
-
-                if(result.isConfirmed){
-
-                    window.location.href =
-                    '/admin/verifikasi/setujui/' + id;
-
-                }
-
-            });
-        }
-
-        function confirmTolak(id)
-        {
-            Swal.fire({
-
-                title: 'Tolak Dokumen?',
-                text: 'Dokumen akan ditolak.',
-                icon: 'warning',
-
-                showCancelButton: true,
-
-                confirmButtonColor: '#dc3545',
-                cancelButtonColor: '#6c757d',
-
-                confirmButtonText: 'Ya, Tolak!',
-                cancelButtonText: 'Batal'
-
-            }).then((result) => {
-
-                if(result.isConfirmed){
-
-                    window.location.href =
-                    '/admin/verifikasi/tolak/' + id;
-
-                }
-
-            });
-        }
-
-        </script>
 </body>
 </html>
