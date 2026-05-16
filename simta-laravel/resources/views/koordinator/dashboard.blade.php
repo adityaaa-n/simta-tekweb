@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Koordinator TA</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            background-color: #f5f7fb;
+        }
+
+        .navbar-custom {
+            background-color: #0d6efd;
+        }
+
+        .card-menu {
+            transition: 0.3s;
+            border: none;
+            border-radius: 15px;
+            height: 100%;
+
+        }
+
+        .card-menu:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .icon-menu {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #0d6efd;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="#">
+                SIMTA - Koordinator TA
+            </a>
+            <a href="/" class="text-white fw-bold text-decoration-none fs-5">
+                <i class='bi bi-box-arrow-right' me-2></i>
+                    Logout
+            </a>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+
+        <!-- Welcome -->
+        <div class="mb-4">
+            <h2 class="fw-bold">Selamat Datang, Koordinator TA 👋</h2>
+            <p class="text-muted">
+                Kelola proposal mahasiswa dan monitoring tugas akhir.
+            </p>
+        </div>
+
+        <!-- Menu Cards -->
+        <div class="row g-4 mb-5 align-items-stretch">
+
+            <div class="col-md-4 d-flex">
+                <a href="/koordinator/verifikasi"
+                class="text-decoration-none text-dark w-100">
+                    <div class="card card-menu p-4 text-center">
+                        <i class="fa-solid fa-file-circle-check icon-menu"></i>
+                        <h5 class="fw-bold">
+                            Verifikasi Proposal
+                        </h5>
+                        <p class="text-muted">
+                            Kelola persetujuan proposal mahasiswa.
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 d-flex">
+                <a href="/koordinator/penjadwalan"
+                class="text-decoration-none text-dark w-100">
+                    <div class="card card-menu p-4 text-center">
+                        <i class="fa-solid fa-calendar-days icon-menu"></i>
+                        <h5 class="fw-bold">
+                            Jadwal Ujian
+                        </h5>
+                        <p class="text-muted">
+                            Atur jadwal ujian tugas akhir.
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 d-flex">
+                <a href="/koordinator/manajemen-dosen"
+                class="text-decoration-none text-dark w-100">
+                    <div class="card card-menu p-4 text-center">
+                        <i class="fa-solid fa-calendar-check icon-menu"></i>
+                        <h5 class="fw-bold">
+                            Manajemen Pembimbing
+                        </h5>
+                        <p class="text-muted">
+                            Kelola data dan jadwal pembimbing tugas akhir.
+                        </p>
+                    </div>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+    <footer class="text-center mt-5 mb-3 text-muted">
+
+        © 2026 Sistem Informasi Manajemen Tugas Akhir (SIMTA)
+
+    </footer>
+
+</body>
+</html>
