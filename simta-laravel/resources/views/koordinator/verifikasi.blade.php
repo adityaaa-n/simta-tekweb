@@ -104,7 +104,7 @@
                         <tr>
                             
                             <td>
-                                {{ $item['mahasiswa'] }}
+                                {{ $item['nama_mhs'] }}
                             </td>
                             
                             <td>
@@ -112,7 +112,7 @@
                             </td>
                             
                             <td>
-                                {{ $item['dosen'] ?? '-' }}
+                                {{ $item['nama_dosen'] ?? '-' }}
                             </td>
                             
                             <td class="text-center">
