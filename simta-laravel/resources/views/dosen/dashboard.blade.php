@@ -7,8 +7,13 @@
     <div class="col-12">
         <div class="p-5 mb-4 bg-white rounded-4 shadow-sm border-0 position-relative overflow-hidden">
             <div style="position: relative; z-index: 2;">
-                <h2 class="display-6 fw-bold">Selamat Datang, Dosen Pembimbing</h2>
-                <p class="col-md-8 fs-5 text-muted">Pantau dan kelola progres Tugas Akhir mahasiswa Anda secara real-time melalui panel kendali ini.</p>
+                <h2 class="display-6 fw-bold mb-1">Selamat Datang, {{ session('user.name', 'Dosen Pembimbing') }}!</h2>
+                
+                <p class="text-secondary fw-semibold mb-3">
+                    <i class="fas fa-envelope me-2"></i>{{ session('user.email', 'dosen@unjani.ac.id') }}
+                </p>
+                
+                <p class="col-md-8 fs-5 text-muted mt-2">Pantau dan kelola progres Tugas Akhir mahasiswa Anda secara real-time melalui panel kendali ini.</p>
             </div>
             <div style="position: absolute; right: -50px; bottom: -50px; opacity: 0.1;">
                 <i class="fas fa-user-tie fa-10x"></i>
