@@ -1,5 +1,9 @@
 node_modules/
 .env
+<<<<<<< HEAD
+uploads/
+=======
 uploads/
 node_modules
 .env
+>>>>>>> cdf7f3f90ed26e740c1fa730ebdca9d379d20804

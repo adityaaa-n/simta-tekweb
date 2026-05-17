@@ -63,10 +63,13 @@
             <span class="navbar-brand fw-bold">
                 SIMTA - Kaprodi
             </span>
-            <a href="/logout" class="text-white text-decoration-none fw-semibold">
-                <i class="fa-solid fa-right-from-bracket me-1"></i>
-                Logout
-            </a>
+            <form action="{{ route('logout') }}" method="POST" class="d-inline m-0">
+                @csrf
+                <button type="submit" class="btn btn-link text-white text-decoration-none fw-semibold p-0 border-0 text-decoration-none">
+                    <i class="fa-solid fa-right-from-bracket me-1"></i>
+                    Logout
+                </button>
+            </form>
         </div>
 
     </nav>

@@ -52,10 +52,12 @@
             <a class="navbar-brand fw-bold" href="#">
                 SIMTA - Koordinator TA
             </a>
-            <a href="/" class="text-white fw-bold text-decoration-none fs-5">
-                <i class='bi bi-box-arrow-right' me-2></i>
-                    Logout
-            </a>
+            <form action="{{ route('logout') }}" method="POST" class="d-inline m-0">
+                @csrf
+                <button type="submit" class="btn btn-link text-white text-decoration-none fw-bold fs-5 p-0 border-0">
+                    <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
+                </button>
+            </form>
         </div>
     </nav>
 

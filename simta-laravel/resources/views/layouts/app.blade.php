@@ -17,6 +17,7 @@
             color: white !important;
         }
         .transition-all { transition: all 0.3s ease; }
+        @yield('styles')
     </style>
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
@@ -38,9 +39,12 @@
                 🎓 SIMTA | Dashboard {{ strtoupper($role) }}
             </a>
             <div class="d-flex align-items-center">
-                <a href="/logout" class="btn btn-outline-light btn-sm rounded-pill px-3 fw-bold transition-all hover-danger">
-                    <i class="fas fa-sign-out-alt me-1"></i> Logout
-                </a>
+                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-light btn-sm rounded-pill px-3 fw-bold transition-all hover-danger">
+                        <i class="fas fa-sign-out-alt me-1"></i> Logout
+                    </button>
+                </form>
             </div>
         </div>
     </nav>
@@ -81,5 +85,6 @@
             });
         @endif
     </script>
+    @yield('scripts')
 </body>
 </html>

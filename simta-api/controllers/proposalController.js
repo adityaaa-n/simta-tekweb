@@ -2,17 +2,18 @@ const db = require("../config/db");
 
 // 1. Mahasiswa mengajukan judul proposal
 const ajukanProposal = async (req, res) => {
-  const { mhs_id, judul, deskripsi } = req.body;
+  const { mhs_id, dsn_id, judul, deskripsi } = req.body;
   try {
     const [result] = await db.query(
-      'INSERT INTO proposals (mhs_id, judul, deskripsi, status) VALUES (?, ?, ?, "pending")',
-      [mhs_id, judul, deskripsi],
+      'INSERT INTO proposals (mhs_id, dsn_id, judul, deskripsi, status) VALUES (?, ?, ?, ?, "pending")',
+      [mhs_id, dsn_id, judul, deskripsi],
     );
     res.status(201).json({
       message: "Proposal berhasil diajukan!",
       proposal_id: result.insertId,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Gagal mengajukan proposal" });
   }
 };
@@ -170,3 +171,4 @@ module.exports = {
   getLogsByDosen,
   getProposalsForReviewDosen,
 };
+
