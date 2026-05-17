@@ -50,10 +50,10 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Dosen Pembimbing</label>
-          <select name="dosen_pembimbing" class="form-select" required>
+          <select name="dsn_id" class="form-select" required>
             <option selected disabled value="">Pilih Dosen</option>
             @foreach($dosens as $dosen)
-              <option value="{{ $dosen->name }}">{{ $dosen->name }}</option>
+              <option value="{{ $dosen->id }}">{{ $dosen->name }}</option>
             @endforeach
           </select>
         </div>

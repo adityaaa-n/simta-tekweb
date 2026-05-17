@@ -26,11 +26,25 @@ class LoginController extends Controller
 
             $role = Auth::user()->role;
             
+            // Simpan data di session agar bisa dipakai secara universal
+            session(['user' => [
+                'id' => Auth::id(), 
+                'role' => $role
+            ]]);
+
             if ($role === 'mahasiswa' || $role === 'mhs') {
                 return redirect()->route('mahasiswa.dashboard');
+            } elseif ($role === 'dosen' || $role === 'dsn') {
+                return redirect()->route('dosen.dashboard');
+            } elseif ($role === 'koordinator' || $role === 'koor') {
+                return redirect('/koordinator/dashboard');
+            } elseif ($role === 'admin') {
+                return redirect('/admin/dashboard');
+            } elseif ($role === 'kaprodi') {
+                return redirect('/kaprodi/dashboard');
             }
 
-            // Jika dashboard belum ada
+            // Jika role tidak dikenali
             return redirect()->route('dashboard.not_ready', ['role' => $role]);
         }
 

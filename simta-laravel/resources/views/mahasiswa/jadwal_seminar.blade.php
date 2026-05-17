@@ -37,13 +37,7 @@
             <td>{{ $seminar->waktu }}</td>
             <td>{{ $seminar->ruang }}</td>
             <td>
-              @if(strtolower($seminar->status) == 'disetujui' || strtolower($seminar->status) == 'terverifikasi')
-                <span class="badge bg-success">{{ ucfirst($seminar->status) }}</span>
-              @elseif(strtolower($seminar->status) == 'ditolak')
-                <span class="badge bg-danger">{{ ucfirst($seminar->status) }}</span>
-              @else
-                <span class="badge bg-warning text-dark">{{ ucfirst($seminar->status) }}</span>
-              @endif
+              <span class="badge bg-success">Terjadwal</span>
             </td>
           </tr>
           @empty

@@ -27,15 +27,15 @@
       <h3 class="text-danger mb-4">Monitoring Tugas Akhir</h3>
       <ul class="list-group mb-4">
         <li class="list-group-item">
-          Pengajuan TA: <strong>Disetujui</strong>
+          Pengajuan TA: <strong>{{ $proposal ? ucfirst($proposal['status']) : 'Belum Ada Pengajuan' }}</strong>
         </li>
-        <li class="list-group-item">Bimbingan: <strong>4 pertemuan</strong></li>
-        <li class="list-group-item">Seminar: <strong>28/06/2025</strong></li>
+        <li class="list-group-item">Bimbingan: <strong>{{ $bimbinganCount }} pertemuan</strong></li>
+        <li class="list-group-item">Seminar: <strong>{{ $schedule ? \Carbon\Carbon::parse($schedule['tanggal'])->format('d/m/Y') : 'Belum Terjadwal' }}</strong></li>
         <li class="list-group-item">
-          Ujian TA: <strong>Belum Terdaftar</strong>
+          Ujian TA: <strong>{{ $schedule ? 'Terjadwal' : 'Belum Terjadwal' }}</strong>
         </li>
         <li class="list-group-item">
-          Dokumen Akhir: <strong>Belum Diunggah</strong>
+          Dokumen Akhir: <strong>{{ $proposal ? ucwords(str_replace('_', ' ', $proposal['status_dokumen'])) : 'Belum Diunggah' }}</strong>
         </li>
       </ul>
       <a href="{{ route('mahasiswa.dashboard') }}" class="btn btn-outline-danger w-100">
